@@ -1,0 +1,4 @@
+{
+  "/(dashboard)/send-broadcast/page": "app/(dashboard)/send-broadcast/page.js",
+  "/(dashboard)/page": "app/(dashboard)/page.js"
+}
