@@ -24,7 +24,7 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
 
     try {
       const res = await signIn('credentials', {
-        username: formData.get('username'),
+        username: formData.get('admin'),
         password: formData.get('password'),
         redirect: false,
         callbackUrl,

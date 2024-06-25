@@ -1,4 +1,5 @@
 {
-  "/(dashboard)/send-broadcast/page": "app/(dashboard)/send-broadcast/page.js",
-  "/(dashboard)/page": "app/(dashboard)/page.js"
+  "/(dashboard)/page": "app/(dashboard)/page.js",
+  "/(authentication)/login/page": "app/(authentication)/login/page.js",
+  "/(dashboard)/qrcode/page": "app/(dashboard)/qrcode/page.js"
 }

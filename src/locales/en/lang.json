@@ -273,6 +273,7 @@
     "items": {
       "dashboard": "Dashboard",
       "send": "Send Broadcast",
+      "qrcode": "QR Register",
       "theme": "Theme",
       "colors": "Colors",
       "typography": "Typography",

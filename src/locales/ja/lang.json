@@ -273,6 +273,7 @@
     "items": {
       "dashboard": "ダッシュボード",
       "send": "サンプル",
+      "qrcode": "QR Register",
       "theme": "テーマ",
       "colors": "色",
       "typography": "タイポグラフィ",

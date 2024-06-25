@@ -1,5 +1,5 @@
 import {
-  faAddressCard, faBell, faFileLines, faStar,
+  faAddressCard, faBell, faFileLines, faMessage, faStar,
 } from '@fortawesome/free-regular-svg-icons'
 import {
   faBug,
@@ -12,6 +12,7 @@ import {
   faLocationArrow,
   faPencil,
   faPuzzlePiece,
+  faQrcode,
   faRightToBracket,
 } from '@fortawesome/free-solid-svg-icons'
 import React, { PropsWithChildren } from 'react'
@@ -36,11 +37,14 @@ export default async function SidebarNav() {
         {dict.sidebar.items.dashboard}
         <small className="ms-auto"><Badge bg="info" className="ms-auto">NEW</Badge></small>
       </SidebarNavItem>
-      <SidebarNavItem icon={faCode} href="/send-broadcast">
+      <SidebarNavItem icon={faMessage} href="/send-broadcast">
         {dict.sidebar.items.send}
         <small className="ms-auto"></small>
       </SidebarNavItem>
-      
+      <SidebarNavItem icon={faQrcode} href="/qrcode">
+        {dict.sidebar.items.qrcode}
+        <small className="ms-auto"></small>
+      </SidebarNavItem>
       {/* <SidebarNavItem icon={faCode} href="/pokemons">
         {dict.sidebar.items.sample}
         <small className="ms-auto"><Badge bg="danger" className="ms-auto">DEMO</Badge></small>
