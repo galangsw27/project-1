@@ -16,25 +16,15 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/(authentication)/login/page": [
+    "/(dashboard)/qrcode/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(authentication)/login/page.js"
-    ],
-    "/(authentication)/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(authentication)/layout.js"
+      "static/chunks/app/(dashboard)/qrcode/page.js"
     ],
     "/(dashboard)/send-broadcast/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(dashboard)/send-broadcast/page.js"
-    ],
-    "/(dashboard)/qrcode/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(dashboard)/qrcode/page.js"
     ]
   }
 }
