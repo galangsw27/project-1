@@ -1,0 +1,39 @@
+{
+    
+    "groups": [
+      {
+        "value": "mango",
+        "label": "Mango"
+      },
+      {
+        "value": "banana",
+        "label": "Banana",
+        "nomor": {
+            "1": "081226716818",
+            "2": "081226296393",
+            "3": "081226716818",
+            "4": "081226296393",
+            "5": "081226716818",
+            "6": "081226296393",
+            "7": "082137192310"
+        }
+      },
+      {
+        "value": "cherry",
+        "label": "Cherry"
+      },
+      {
+        "value": "grapes",
+        "label": "Grapes"
+      },
+      {
+        "value": "salak",
+        "label": "Salak"
+      },
+      {
+        "value": "apple",
+        "label": "Apple"
+      }
+    ]
+  }
+  

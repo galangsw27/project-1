@@ -1,21 +1,12 @@
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faArrowDown,
-  faArrowUp,
-  faDownload,
   faEllipsisVertical,
-  faMars,
-  faSearch,
   faUsers,
-  faVenus,
 } from '@fortawesome/free-solid-svg-icons'
 import {
-  Button,
-  ButtonGroup,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
   Dropdown,
   DropdownItem,
@@ -23,22 +14,8 @@ import {
   DropdownToggle,
   ProgressBar,
 } from 'react-bootstrap'
-import {
-  faCcAmex,
-  faCcApplePay,
-  faCcPaypal,
-  faCcStripe,
-  faCcVisa,
-  faFacebookF,
-  faLinkedinIn,
-  faTwitter,
-} from '@fortawesome/free-brands-svg-icons'
+
 import React from 'react'
-import UserChart from '@/components/Page/Dashboard/UserChart'
-import IncomeChart from '@/components/Page/Dashboard/IncomeChart'
-import ConversionChart from '@/components/Page/Dashboard/ConversionChart'
-import SessionChart from '@/components/Page/Dashboard/SessionChart'
-import TrafficChart from '@/components/Page/Dashboard/TrafficChart'
 import { getDictionary } from '@/locales/dictionary'
 
 export default async function Page() {

@@ -1,5 +1,3 @@
 {
-  "/(dashboard)/page": "app/(dashboard)/page.js",
-  "/(authentication)/login/page": "app/(authentication)/login/page.js",
-  "/(dashboard)/qrcode/page": "app/(dashboard)/qrcode/page.js"
+  "/(dashboard)/manage-group/page": "app/(dashboard)/manage-group/page.js"
 }

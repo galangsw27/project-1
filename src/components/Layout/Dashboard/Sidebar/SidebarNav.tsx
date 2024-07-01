@@ -8,6 +8,7 @@ import {
   faCode,
   faDroplet,
   faGauge,
+  faGears,
   faLayerGroup,
   faLocationArrow,
   faPencil,
@@ -33,16 +34,25 @@ export default async function SidebarNav() {
   const dict = await getDictionary()
   return (
     <ul className="list-unstyled">
+      <SidebarNavTitle>{dict.sidebar.items.dashboard}</SidebarNavTitle>
+
       <SidebarNavItem icon={faGauge} href="/">
         {dict.sidebar.items.dashboard}
         <small className="ms-auto"><Badge bg="info" className="ms-auto">NEW</Badge></small>
       </SidebarNavItem>
+      <SidebarNavTitle>{dict.sidebar.items.main_fitur}</SidebarNavTitle>
+
       <SidebarNavItem icon={faMessage} href="/send-broadcast">
         {dict.sidebar.items.send}
         <small className="ms-auto"></small>
       </SidebarNavItem>
       <SidebarNavItem icon={faQrcode} href="/qrcode">
         {dict.sidebar.items.qrcode}
+        <small className="ms-auto"></small>
+      </SidebarNavItem>
+
+      <SidebarNavItem icon={faGears} href="/manage-group">
+        {dict.sidebar.items.groups}
         <small className="ms-auto"></small>
       </SidebarNavItem>
       {/* <SidebarNavItem icon={faCode} href="/pokemons">
