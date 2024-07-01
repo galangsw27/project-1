@@ -1,4 +1,6 @@
-import 'server-only'
+// import 'server-only'
+// 'use client'
+
 import { cookies } from 'next/headers'
 import { defaultLocale } from '@/locales/config'
 

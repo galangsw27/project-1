@@ -51,7 +51,7 @@ export default async function SidebarNav() {
         <small className="ms-auto"></small>
       </SidebarNavItem>
 
-      <SidebarNavItem icon={faGears} href="">
+      <SidebarNavItem icon={faGears} href="/manage-group">
         {dict.sidebar.items.groups}
         <small className="ms-auto"></small>
       </SidebarNavItem>

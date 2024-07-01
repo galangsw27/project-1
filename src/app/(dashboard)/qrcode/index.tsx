@@ -3,7 +3,7 @@
 // Import necessary libraries and components
 import React, { useState, useEffect } from 'react';
 import { Button, Card, CardGroup, Row, Col } from 'react-bootstrap';
-import qrPlaceholder from 'public/assets/img/wait.png';
+// import qrPlaceholder from 'public/assets/img/wait.png';
 
 interface IndexProps {
   qrData: {

@@ -1,8 +1,8 @@
 // app/page.tsx
 import React from 'react';
 import Index from '@/app/(dashboard)/qrcode/index';
-import { fetchQr } from '@/utils/fetchQr';
-import { number } from 'zod';
+// import { fetchQr } from '@/utils/fetchQr';
+// import { number } from 'zod';
 
 
 
