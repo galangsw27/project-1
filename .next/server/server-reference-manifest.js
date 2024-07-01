@@ -1,1 +1,1 @@
-self.__RSC_SERVER_MANIFEST="{\n  \"node\": {},\n  \"edge\": {},\n  \"encryptionKey\": \"adaUCixz6tyQ8ZrrUTZ9fGmc8gF4dRPPPcSpf1NyGzY=\"\n}"
+self.__RSC_SERVER_MANIFEST="{\"node\":{\"731312fd1204174510ea834abec202c41ea71a77\":{\"workers\":{\"app/(dashboard)/pokemons/[id]/edit/page\":\"1346\",\"app/(dashboard)/pokemons/create/page\":\"1346\"},\"layer\":{\"app/(dashboard)/pokemons/[id]/edit/page\":\"action-browser\",\"app/(dashboard)/pokemons/create/page\":\"action-browser\"}}},\"edge\":{},\"encryptionKey\":\"e0Gm9vD016IZSKdPugJkN1aluLoXenlvbn44X4UtyG4=\"}"

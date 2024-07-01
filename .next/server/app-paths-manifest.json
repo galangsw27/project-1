@@ -1,3 +1,13 @@
 {
-  "/(dashboard)/manage-group/page": "app/(dashboard)/manage-group/page.js"
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/(authentication)/register/page": "app/(authentication)/register/page.js",
+  "/(dashboard)/pokemons/[id]/edit/page": "app/(dashboard)/pokemons/[id]/edit/page.js",
+  "/(dashboard)/page": "app/(dashboard)/page.js",
+  "/(authentication)/login/page": "app/(authentication)/login/page.js",
+  "/(dashboard)/manage-group/page": "app/(dashboard)/manage-group/page.js",
+  "/(dashboard)/pokemons/create/page": "app/(dashboard)/pokemons/create/page.js",
+  "/(dashboard)/qrcode/page": "app/(dashboard)/qrcode/page.js",
+  "/(dashboard)/pokemons/page": "app/(dashboard)/pokemons/page.js",
+  "/(dashboard)/send-broadcast/page": "app/(dashboard)/send-broadcast/page.js"
 }

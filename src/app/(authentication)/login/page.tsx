@@ -1,5 +1,4 @@
 import { Col, Row } from 'react-bootstrap'
-import Link from 'next/link'
 import LoginForm from '@/app/(authentication)/login/login'
 import { SearchParams } from '@/types/next'
 import { getDictionary } from '@/locales/dictionary'

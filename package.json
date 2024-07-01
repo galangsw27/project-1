@@ -27,6 +27,7 @@
     "negotiator": "^0.6.3",
     "next": "^14.2.3",
     "next-auth": "^4.24.7",
+    "next-headers": "^0.0.5",
     "next-nprogress-bar": "^2.3.11",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.4",
@@ -39,25 +40,27 @@
     "zod-i18n-map": "^2.27.0"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^14.2.4",
     "@types/js-cookie": "^3.0.6",
     "@types/negotiator": "^0.6.3",
-    "@types/node": "^20.12.11",
-    "@types/react": "^18.3.1",
+    "@types/node": "20.14.9",
+    "@types/react": "18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.14.1",
     "cypress": "^13.9.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.6.0",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-config-next": "^14.2.3",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "json-server": "^0.17.4",
+    "json-server": "^1.0.0-beta.1",
     "sass": "^1.77.0",
     "start-server-and-test": "^2.0.3",
-    "typescript": "^5.4.5"
+    "typescript": "5.5.2"
   }
 }
