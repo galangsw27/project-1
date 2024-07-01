@@ -44,16 +44,16 @@ export default async function SidebarNav() {
 
       <SidebarNavItem icon={faMessage} href="/send-broadcast">
         {dict.sidebar.items.send}
-        <small className="ms-auto"></small>
+        <small className="ms-auto" />
       </SidebarNavItem>
       <SidebarNavItem icon={faQrcode} href="/qrcode">
         {dict.sidebar.items.qrcode}
-        <small className="ms-auto"></small>
+        <small className="ms-auto" />
       </SidebarNavItem>
 
       <SidebarNavItem icon={faGears} href="/manage-group">
         {dict.sidebar.items.groups}
-        <small className="ms-auto"></small>
+        <small className="ms-auto" />
       </SidebarNavItem>
       {/* <SidebarNavItem icon={faCode} href="/pokemons">
         {dict.sidebar.items.sample}

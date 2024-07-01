@@ -1,9 +1,9 @@
 'use client'
 
-import { Button, Card, Form, Table, Modal } from 'react-bootstrap';
-import React, { useState, useEffect } from 'react';
-import groupsData from './group.json'; // Import the JSON file
-import qrData from '../qrcode/qrData.json'; // Import the JSON file
+import { Button, Card, Form, Table, Modal } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react'
+import groupsData from './group.json' // Import the JSON file
+import qrData from '../qrcode/qrData.json' // Import the JSON file
 
 interface Group {
   value: string;
@@ -19,33 +19,33 @@ interface GroupsData {
 }
 
 export default function Index() {
-  const [selectedGroup, setSelectedGroup] = useState<string>('');
-  const [options, setOptions] = useState<Group[]>([]);
-  const [nomor, setNomor] = useState<{ [key: string]: string }>({});
+  const [selectedGroup, setSelectedGroup] = useState<string>('')
+  const [options, setOptions] = useState<Group[]>([])
+  const [nomor, setNomor] = useState<{ [key: string]: string }>({})
 
-  const [showMore, setShowMore] = useState(false);
+  const [showMore, setShowMore] = useState(false)
 
-  const handleShowMore = () => setShowMore(true);
-  const handleClose = () => setShowMore(false);
+  const handleShowMore = () => setShowMore(true)
+  const handleClose = () => setShowMore(false)
 
   
   useEffect(() => {
-    const data: GroupsData = groupsData as GroupsData;
-    setOptions(data.groups); // Set the options from the imported JSON data
-  }, []);
+    const data: GroupsData = groupsData as GroupsData
+    setOptions(data.groups) // Set the options from the imported JSON data
+  }, [])
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value;
-    setSelectedGroup(selectedValue);
+    const selectedValue = e.target.value
+    setSelectedGroup(selectedValue)
 
     // Find the selected group and update the nomor state
-    const selectedGroup = options.find(option => option.value === selectedValue);
+    const selectedGroup = options.find(option => option.value === selectedValue)
     if (selectedGroup && selectedGroup.nomor) {
-      setNomor(selectedGroup.nomor); // Set the nomor values if they exist
+      setNomor(selectedGroup.nomor) // Set the nomor values if they exist
     } else {
-      setNomor({});
+      setNomor({})
     }
-  };
+  }
 
   return (
     <Card>
@@ -140,5 +140,5 @@ export default function Index() {
 </div>
       </Card.Body>
     </Card>
-  );
+  )
 }

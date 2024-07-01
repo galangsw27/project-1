@@ -1,32 +1,25 @@
-import { Button, DropdownToggle, Table, Dropdown, DropdownItem, DropdownMenu, Card , CardHeader, CardBody } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState, useEffect } from 'react';
-import { faEllipsisVertical, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { getDictionary } from '@/locales/dictionary';
+// 'use client'
+import { Button, DropdownToggle, Table, Dropdown, DropdownItem, DropdownMenu, Card , CardHeader, CardBody } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react'
+import { faEllipsisVertical, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { getDictionary } from '@/locales/dictionary'
 
 export default function Index() {
-  const [dict, setDict] = useState<any>(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      const dictionary = await getDictionary();
-      setDict(dictionary);
-    }
-    fetchData();
-  }, []);
+  const dict = getDictionary()
 
   if (!dict) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
   return (
     <Card>
-      <CardHeader>{dict.pokemons.title}</CardHeader>
+      <CardHeader>Testing</CardHeader>
       <CardBody>
         <div className="mb-3 text-end">
           <Button variant="success">
             <FontAwesomeIcon icon={faPlus} fixedWidth />
-            {dict.pokemons.add_new}
+            Add New
           </Button>
         </div>
         <Table striped>
@@ -56,10 +49,10 @@ export default function Index() {
                     <FontAwesomeIcon fixedWidth icon={faEllipsisVertical} />
                   </DropdownToggle>
                   <DropdownMenu>
-                    <DropdownItem href="#/action-1">{dict.action.info}</DropdownItem>
-                    <DropdownItem href="#/action-2">{dict.action.edit}</DropdownItem>
+                    <DropdownItem href="#/action-1">info</DropdownItem>
+                    <DropdownItem href="#/action-2">edit</DropdownItem>
                     <DropdownItem className="text-danger" href="#/action-3">
-                      {dict.action.delete}
+                      delete
                     </DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
@@ -80,5 +73,5 @@ export default function Index() {
         </Table>
       </CardBody>
     </Card>
-  );
+  )
 }

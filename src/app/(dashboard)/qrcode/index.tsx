@@ -1,8 +1,8 @@
 'use client'
 
 // Import necessary libraries and components
-import React, { useState, useEffect } from 'react';
-import { Button, Card, CardGroup, Row, Col } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react'
+import { Button, Card, CardGroup, Row, Col } from 'react-bootstrap'
 // import qrPlaceholder from 'public/assets/img/wait.png';
 
 interface IndexProps {
@@ -16,15 +16,15 @@ interface IndexProps {
 }
 
 export default function Index({ qrData }: IndexProps) {
-  const [dots, setDots] = useState('');
+  const [dots, setDots] = useState('')
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setDots((prevDots) => (prevDots.length < 3 ? prevDots + '.' : ''));
-    }, 500);
+      setDots((prevDots) => (prevDots.length < 3 ? `${prevDots  }.` : ''))
+    }, 500)
 
-    return () => clearInterval(interval);
-  }, []);
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <CardGroup style={{ width: '100%', textAlign: 'center', backgroundColor: '#f5f5f5', borderWidth: '0' }} >
@@ -73,5 +73,5 @@ export default function Index({ qrData }: IndexProps) {
         </Col>
       </Row>
     </CardGroup>
-  );
+  )
 }

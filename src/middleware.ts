@@ -5,6 +5,9 @@ import Negotiator from 'negotiator'
 import { NextMiddlewareResult } from 'next/dist/server/web/types'
 import { getLocales } from '@/locales/dictionary'
 import { defaultLocale } from '@/locales/config'
+import { withNextHeaders } from 'next-headers'
+
+
 
 export default async function middleware(request: NextRequest, event: NextFetchEvent) {
   const headers = { 'accept-language': request.headers.get('accept-language') ?? '' }
