@@ -6,6 +6,8 @@ import fetch from 'node-fetch';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/option';
 
+
+
 export const createSession = async (nameSession: string | undefined) => {
   try {
     const response = await fetch('http://localhost:5001/start-session?session='+ nameSession +'&scan=true');
@@ -15,16 +17,24 @@ export const createSession = async (nameSession: string | undefined) => {
     
     const html = await response.text();
     const dom = new JSDOM(html);
-    const scriptContent = dom.window.document.querySelector("script").textContent;
-    const base64Pattern = /data:image\/png;base64,[^')]+/;
-    const match = base64Pattern.exec(scriptContent);
-    const qrImage = match[0]
-
-    if (match) {
-      return qrImage;
-    } else {
-      console.log("No image source found");
-    }
+    const scriptElement = dom.window.document.querySelector("script");
+    if (scriptElement) {
+      const scriptContent = scriptElement.textContent;
+      const base64Pattern = /data:image\/png;base64,[^')]+/;
+      const match = base64Pattern.exec(scriptContent || '');
+  
+      if (match) {
+          const qrImage = match[0];
+          // Do something with qrImage
+          return qrImage
+      } else {
+          console.log("No base64 image found in the script content");
+          // Handle the case where no base64 image is found
+      }
+  } else {
+      console.log("No script element found");
+      // Handle the case where no script element is found
+  }
   } catch (error) {
     console.error('Failed to fetch QR code data:', error);
     return null;
@@ -50,6 +60,8 @@ async function checkQr(nameSession: string | undefined, countSession: number) {
     }   
 
     const data = await response.json(); // Ambil data dari respons sebagai JSON
+    if(data){
+    const data: { status?: boolean } = {}; // Assuming `data` is an object that might or might not have `status`
     const isConnected = data.status === true;
 
     // Simulasi data yang diambil dari API atau sumber data lainnya
@@ -61,23 +73,34 @@ async function checkQr(nameSession: string | undefined, countSession: number) {
       isConnected,
       device: countSession,
     };
+  }
   } catch (error) {
-    console.error('Failed to fetch QR code data:', error);
+    
     return null;
   }
 }
+
+
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
   const nameSession = session?.user.email;
 
   const getSession = await checkSession();
+  // console.log(getSession)
   const countSession = getSession.data.length;
   const sessionNames = getSession.data.map((session: { session_name: string }) => session.session_name);
 
-  const qrData = await checkQr(sessionNames, countSession);
-  console.log(qrData);
-
+  let qrData = await checkQr(sessionNames, countSession);
+  if (qrData === null) {
+    qrData = {
+        activeImg: '/assets/img/active.png',
+        waitImg: '/assets/img/wait.png',
+        nama: 'John Doe',
+        number: '+6271927192',
+        device: 0
+    };
+}
   return (
     <Index qrData={qrData} sessionName={sessionNames} />
   );

@@ -7,17 +7,18 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { Button, Card, CardGroup, Row, Col, Modal, ListGroup, Form } from 'react-bootstrap';
 
 interface IndexProps {
-  qrData: {
-    activeImg: string | null;
+  qrData:  {
+    activeImg: string | undefined;
+    waitImg: string | undefined;
     nama: string;
     number: string;
-    device: string;
+    device: string | any;
   } | null;
-  imgUrl: string | null;
   sessionName: string[];
 }
 
-export default function Index({ qrData, imgUrl, sessionName }: IndexProps) {
+export default function Index({ qrData, sessionName }: IndexProps) {
+  if (qrData) {
   const [dots, setDots] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -81,7 +82,11 @@ export default function Index({ qrData, imgUrl, sessionName }: IndexProps) {
         alert(errorMessage);
       }
     } catch (error) {
-      alert(`Failed to create session: ${error.message}`);
+      if (error instanceof Error) {
+        alert(`Failed to create session: ${error.message}`);
+      } else {
+        alert('Failed to create session: Unknown error');
+      }
     } finally {
       setIsLoading(false);
       // setShowCreateModal(false);
@@ -90,6 +95,7 @@ export default function Index({ qrData, imgUrl, sessionName }: IndexProps) {
   };
   
   return (
+    
     <Fragment>
       <CardGroup style={{ width: '100%', textAlign: 'center', backgroundColor: '#f5f5f5', borderWidth: '0' }}>
         <Row style={{ width: '100%' }}>
@@ -196,4 +202,6 @@ export default function Index({ qrData, imgUrl, sessionName }: IndexProps) {
       </Modal>
     </Fragment>
   );
+}
+<h2>Server Error</h2>
 }
