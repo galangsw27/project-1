@@ -2,6 +2,7 @@ import { Col, Row } from 'react-bootstrap'
 import LoginForm from '@/app/(authentication)/login/login'
 import { SearchParams } from '@/types/next'
 import { getDictionary } from '@/locales/dictionary'
+import Link from 'next/link'
 
 export default async function Page({ searchParams }: { searchParams: SearchParams }) {
   const { callbackUrl } = searchParams
@@ -16,6 +17,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
   }
 
   return (
+    
     <Row className="justify-content-center align-items-center px-3">
       <Col lg={8}>
         <Row>
@@ -32,12 +34,12 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
             className="bg-primary text-white d-flex align-items-center justify-content-center p-5"
           >
             <div className="text-center">
-              <h2>Kedan Joss</h2>
-              {/* <h2>{dict.login.signup.title}</h2>
+              {/* <h2>Kedan Joss</h2> */}
+              {/* <h2>{dict.login.signup.title}</h2> */}
               <p>{dict.login.signup.description}</p>
               <Link className="btn btn-lg btn-outline-light mt-3" href="/register">
                 {dict.signup.register_now}
-              </Link> */}
+              </Link>
             </div>
           </Col>
         </Row>

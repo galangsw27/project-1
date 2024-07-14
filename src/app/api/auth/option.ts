@@ -12,27 +12,42 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     async session({ session, token }) {
+      // console.log('ini Session', token.user.authToken)
       return { ...session, user: token.user }
+
+
     },
   },
   providers: [
     CredentialsProvider({
       credentials: {
-        username: { type: 'string' },
+        email: { type: 'string' },
         password: { type: 'password' },
       },
       async authorize(credentials) {
         if (!credentials) {
           return null
         }
-        const { username, password } = credentials
+        const { email, password } = credentials
 
         // Replace with real authentication here
-        const ok = username === 'Username' && password === 'Password'
+        // Replace with real authentication via API
+        const response = await fetch('http://localhost:5001/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        })
 
+        const data = await response.json()
+        console.log(data.token)
+    
         const dict = await getDictionary()
 
-        if (!ok) {
+        // console.log(response.ok)
+
+        if (!response.ok || !data.token) {
           throw new Error(dict.login.message.auth_failed)
         }
 
@@ -40,8 +55,9 @@ export const authOptions: NextAuthOptions = {
           id: 1,
           name: 'Name',
           username: 'Username',
-          email: 'user@email.com',
+          email: email,
           avatar: '/assets/img/avatars/8.jpg',
+          authToken: data.token
         }
       },
     }),
