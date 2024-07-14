@@ -10,7 +10,7 @@
     "forgot_password": "Forgot password?",
     "signup": {
       "title": "Sign up",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\ntempor incididunt ut labore et dolore magna aliqua."
+      "description": "Don't Have Admin Account ? "
     },
     "message": {
       "auth_failed": "Invalid username or password"

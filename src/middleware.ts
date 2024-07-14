@@ -40,7 +40,9 @@ export default async function middleware(request: NextRequest, event: NextFetchE
       },
     )(request as NextRequestWithAuth, event)
     return res
+    
   }
+  // console.log(response)
 
   return response
 }

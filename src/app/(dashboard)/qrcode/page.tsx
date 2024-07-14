@@ -1,38 +1,84 @@
 // app/page.tsx
-import React from 'react'
-import Index from '@/app/(dashboard)/qrcode/index'
-// import { fetchQr } from '@/utils/fetchQr';
-// import { number } from 'zod';
+import React from 'react';
+import Index from '@/app/(dashboard)/qrcode/index';
+import { JSDOM } from 'jsdom';
+import fetch from 'node-fetch';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/option';
 
+export const createSession = async (nameSession: string | undefined) => {
+  try {
+    const response = await fetch('http://localhost:5001/start-session?session='+ nameSession +'&scan=true');
+    if (!response.ok) {
+      throw new Error(`Network response was not ok ${response.statusText}`);
+    }
+    
+    const html = await response.text();
+    const dom = new JSDOM(html);
+    const scriptContent = dom.window.document.querySelector("script").textContent;
+    const base64Pattern = /data:image\/png;base64,[^')]+/;
+    const match = base64Pattern.exec(scriptContent);
+    const qrImage = match[0]
 
+    if (match) {
+      return qrImage;
+    } else {
+      console.log("No image source found");
+    }
+  } catch (error) {
+    console.error('Failed to fetch QR code data:', error);
+    return null;
+  }
+};
 
-export default async function Page() {
-  // const qrData = await fetchQr();
-  const qrData = await fetchQrDummy()
+export const checkSession = async () => {
+  try {
+    const response = await fetch('http://localhost:5001/sessions?key=mysupersecretkey');
+    const data = await response.json(); // Ambil data dari respons sebagai JSON
+    return data;
+  } catch (error) {
+    console.error('No Data:', error);
+    return null;
+  }
+};
 
+async function checkQr(nameSession: string | undefined, countSession: number) {
+  try {
+    const response = await fetch('http://localhost:5001/session-status?session=' + nameSession );
+    if (!response.ok) {
+      throw new Error(`Network response was not ok ${response.statusText}`);
+    }   
 
- return (
-    <Index qrData={qrData} />
-  )
-}
+    const data = await response.json(); // Ambil data dari respons sebagai JSON
+    const isConnected = data.status === true;
 
-async function fetchQrDummy() {
-  // Simulasi data yang diambil dari API atau sumber data lainnya
-  return {
-    qrCode: '/assets/img/active.png',
-    nama: 'John Doe',
-    number: '+6271927192',
-    status: true,
-    device: '1',
-    // Anda bisa menambahkan lebih banyak properti sesuai kebutuhan
-    // Contoh:
-    // age: 30,
-    // address: "123 Main St, Cityville",
+    // Simulasi data yang diambil dari API atau sumber data lainnya
+    return {
+      activeImg: '/assets/img/active.png',
+      waitImg: '/assets/img/wait.png',
+      nama: 'John Doe',
+      number: '+6271927192',
+      isConnected,
+      device: countSession,
+    };
+  } catch (error) {
+    console.error('Failed to fetch QR code data:', error);
+    return null;
   }
 }
-// const Page = async () => {
-//   const qrData = await fetchQr();
-//   return <Index qrData={qrData} />;
-// 
 
-// export default Page;
+export default async function Page() {
+  const session = await getServerSession(authOptions);
+  const nameSession = session?.user.email;
+
+  const getSession = await checkSession();
+  const countSession = getSession.data.length;
+  const sessionNames = getSession.data.map((session: { session_name: string }) => session.session_name);
+
+  const qrData = await checkQr(sessionNames, countSession);
+  console.log(qrData);
+
+  return (
+    <Index qrData={qrData} sessionName={sessionNames} />
+  );
+}
