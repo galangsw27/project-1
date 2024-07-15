@@ -14,8 +14,9 @@ const IndexPage = ({ nameSession }) => {
   const [textValue, setTextValue] = useState<string>('');
   const [numbers, setNumbers] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [selectedSession, setSelectedSession] = useState(nameSession.length > 0 ? nameSession[0] : ''); // Use first session or empty
+  const [loadingSend, setLoadingSend] = useState(false);
+
+  const [selectedSession, setSelectedSession] = useState(nameSession.length > 0 ? nameSession[0] : '');
   const router = useRouter();
 
   const handleCSVFileRead = (file: File): Promise<string[]> => {
@@ -41,24 +42,24 @@ const IndexPage = ({ nameSession }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!csvFile || !textValue || !imageFile) {
       alert('Please fill in all fields');
       return;
     }
 
-    setLoading(true);
+    setLoadingSend(true);
 
     try {
       const phoneNumbers = await handleCSVFileRead(csvFile);
       const formData = new FormData();
-      
-      formData.append('session', selectedSession); // Use selected session
+
+      formData.append('session', selectedSession);
       phoneNumbers.forEach((number) => formData.append('to[]', number));
       formData.append('message', textValue);
       formData.append('image', imageFile);
 
-      const response = await axios.post('http://localhost:5001/send-blast-message', formData, {
+      const response = await axios.post(`${process.env.NEXT_API_BASEURL}/send-blast-message`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -83,9 +84,10 @@ const IndexPage = ({ nameSession }) => {
         confirmButtonText: 'OK'
       });
     } finally {
-      setLoading(false);
+      setLoadingSend(false);
     }
   };
+
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
@@ -123,11 +125,10 @@ const IndexPage = ({ nameSession }) => {
                 )}
               </Form.Select>
             </Form.Group>
-            
           </Col>
-          </Row>
-            <br/>
-          <Row>
+        </Row>
+        <br/>
+        <Row>
           <Col md={6}>
             <Form.Group controlId="csvFile">
               <Form.Label>CSV File:</Form.Label>
@@ -153,9 +154,7 @@ const IndexPage = ({ nameSession }) => {
                 )}
               </div>
             )}
-            
           </Col>
-          
           <Col md={6}>
             <Form.Group controlId="imageFile">
               <Form.Label>Image File:</Form.Label>
@@ -173,7 +172,6 @@ const IndexPage = ({ nameSession }) => {
             </Form.Group>
           </Col>
         </Row>
-  
         <br />
         <Form.Group controlId="textValue">
           <Form.Label>Message:</Form.Label>
@@ -185,16 +183,19 @@ const IndexPage = ({ nameSession }) => {
           />
         </Form.Group>
         <br />
-        <Button variant="primary" type="submit" disabled={loading}>
-          {loading ? (
-            <>
-              <Spinner animation="border" size="sm" />
-              <span className="ms-2">Sending...</span>
-            </>
-          ) : (
-            'Send'
-          )}
-        </Button>
+        <Col style={{ paddingBottom: 5}}>
+          <Button variant="primary" type="submit" onClick={handleSubmit} disabled={loadingSend} >
+            {loadingSend ? (
+              <>
+                <Spinner animation="border" size="sm" />
+                <span className="ms-2">Sending...</span>
+              </>
+            ) : (
+              'Send'
+            )}
+          </Button>
+        </Col>
+       
       </Form>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>

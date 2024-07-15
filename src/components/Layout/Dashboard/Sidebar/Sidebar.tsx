@@ -51,7 +51,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
           height="46"
         >
           <title>CoreUI Logo</title>
-          <use xlinkHref="/assets/brand/coreui.svg#full" />
+          <use xlinkHref="" />
         </svg>
         <svg
           className="sidebar-brand-narrow d-none"
@@ -59,7 +59,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
           height="46"
         >
           <title>CoreUI Logo</title>
-          <use xlinkHref="/assets/brand/coreui.svg#signet" />
+          <use xlinkHref="" />
         </svg>
       </div>
 

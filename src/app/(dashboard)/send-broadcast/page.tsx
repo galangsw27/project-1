@@ -8,7 +8,7 @@ import { checkSession } from '../qrcode/page'
 
 export default async function Page() {
   
-  const getAllSession = await checkSession()
+  const getAllSession: any = await checkSession()
   const sessionNames = getAllSession.data.map((session: { session_name: string }) => session.session_name);
 
 
