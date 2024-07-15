@@ -10,7 +10,7 @@ import { authOptions } from '@/app/api/auth/option';
 
 export const createSession = async (nameSession: string | undefined) => {
   try {
-    const response = await fetch('http://localhost:5001/start-session?session='+ nameSession +'&scan=true');
+    const response = await fetch(`${process.env.NEXT_API_BASEURL}/start-session?session='+ nameSession +'&scan=true`);
     if (!response.ok) {
       throw new Error(`Network response was not ok ${response.statusText}`);
     }
@@ -43,8 +43,9 @@ export const createSession = async (nameSession: string | undefined) => {
 
 export const checkSession = async () => {
   try {
-    const response = await fetch('http://localhost:5001/sessions?key=mysupersecretkey');
+    const response = await fetch(`${process.env.NEXT_API_BASEURL}/sessions?key=mysupersecretkey`);
     const data = await response.json(); // Ambil data dari respons sebagai JSON
+    console.log(data)
     return data;
   } catch (error) {
     console.error('No Data:', error);
@@ -52,9 +53,10 @@ export const checkSession = async () => {
   }
 };
 
-async function checkQr(nameSession: string | undefined, countSession: number) {
+async function checkQr(nameSession: string | undefined | '', countSession: number) {
   try {
-    const response = await fetch('http://localhost:5001/session-status?session=' + nameSession );
+    const nameSession = null
+    const response = await fetch(`${process.env.NEXT_API_BASEURL}/session-status?session=` + nameSession );
     if (!response.ok) {
       throw new Error(`Network response was not ok ${response.statusText}`);
     }   
@@ -86,19 +88,20 @@ export default async function Page() {
   const session = await getServerSession(authOptions);
   const nameSession = session?.user.email;
 
-  const getSession = await checkSession();
-  // console.log(getSession)
-  const countSession = getSession.data.length;
-  const sessionNames = getSession.data.map((session: { session_name: string }) => session.session_name);
+  const getSession: any = await checkSession();
+  const sessionNames = getSession ? getSession.data.map((session: { session_name: string }) => session.session_name) : [];
+  const countSession = sessionNames.length;
 
   let qrData = await checkQr(sessionNames, countSession);
-  if (qrData === null) {
+
+  if (qrData === null || qrData === undefined) {
     qrData = {
         activeImg: '/assets/img/active.png',
         waitImg: '/assets/img/wait.png',
         nama: 'John Doe',
         number: '+6271927192',
-        device: 0
+        device: 0,
+        isConnected: false
     };
 }
   return (
