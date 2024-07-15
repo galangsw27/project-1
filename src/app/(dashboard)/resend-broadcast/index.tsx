@@ -1,18 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { Key, useState } from 'react';
 import axios from 'axios';
 import Papa from 'papaparse';
 import { useRouter } from 'next/navigation';
 import { Form, Button, Container, Col, Row, Modal, Spinner } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 
-const IndexPage = ({ nameSession }) => {
-  const [csvFile, setCsvFile] = useState<File | null>(null);
+interface IndexPageProps {
+  nameSession: any; // Specify the type of nameSession
+}
+
+const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [textValue, setTextValue] = useState<string>('');
-  const [numbers, setNumbers] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [loadingReSend, setLoadingReSend] = useState(false);
 
@@ -101,7 +103,7 @@ const IndexPage = ({ nameSession }) => {
                 onChange={(e) => setSelectedSession(e.target.value)}
               >
                 {nameSession && nameSession.length > 0 ? (
-                  nameSession.map((session, index) => (
+                  nameSession.map((session: string, index: Key | null | undefined) => (
                     <option key={index} value={session}>{session}</option>
                   ))
                 ) : (
@@ -151,23 +153,7 @@ const IndexPage = ({ nameSession }) => {
         </Button>
       </Form>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>All Numbers</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <ul>
-            {numbers.map((number, index) => (
-              <li key={index}>{number}</li>
-            ))}
-          </ul>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+     
     </Container>
   );
 };

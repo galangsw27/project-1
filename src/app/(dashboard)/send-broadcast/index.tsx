@@ -7,7 +7,12 @@ import { useRouter } from 'next/navigation';
 import { Form, Button, Container, Col, Row, Modal, Spinner } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 
-const IndexPage = ({ nameSession }) => {
+
+interface IndexPageProps {
+  nameSession: any; // Specify the type of nameSession
+}
+
+const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
   const [csvFile, setCsvFile] = useState<File | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -23,7 +28,7 @@ const IndexPage = ({ nameSession }) => {
     return new Promise((resolve, reject) => {
       Papa.parse(file, {
         complete: (result) => {
-          const phoneNumbers = result.data.map((row: string[]) => row[0]);
+          const phoneNumbers: any = result ? result.data.map((row: any) => row[0]): [];
           resolve(phoneNumbers);
         },
         error: (error) => reject(error),
@@ -117,7 +122,7 @@ const IndexPage = ({ nameSession }) => {
                 onChange={(e) => setSelectedSession(e.target.value)}
               >
                 {nameSession && nameSession.length > 0 ? (
-                  nameSession.map((session, index) => (
+                  nameSession.map((session: string, index:  null | undefined) => (
                     <option key={index} value={session}>{session}</option>
                   ))
                 ) : (

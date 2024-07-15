@@ -14,9 +14,9 @@ export async function POST(req: NextRequest) {
 
     const html = await response.text();
     const dom = new JSDOM(html);    
-    const scriptContent = dom.window.document.querySelector("script")?.textContent;
+    const scriptContent: string | null | undefined = dom.window.document.querySelector("script")?.textContent;
     const base64Pattern = /data:image\/png;base64,[^')]+/;
-    const match = base64Pattern.exec(scriptContent);
+    const match = base64Pattern.exec(scriptContent ?? "") ;
     const qrImage = match ? match[0] : null;
 
     if (qrImage) {
