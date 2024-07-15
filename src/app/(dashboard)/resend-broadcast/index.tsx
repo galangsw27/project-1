@@ -1,24 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { Key, useState } from 'react';
 import axios from 'axios';
 import Papa from 'papaparse';
 import { useRouter } from 'next/navigation';
 import { Form, Button, Container, Col, Row, Modal, Spinner } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 
-const IndexPage = ({ nameSession }) => {
-  const [csvFile, setCsvFile] = useState<File | null>(null);
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+
+
+interface IndexPageProps {
+  nameSession: any; // Specify the type of nameSession
+}
+
+const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {  const [csvFile, setCsvFile] = useState<File | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [textValue, setTextValue] = useState<string>('');
-  const [numbers, setNumbers] = useState<string[]>([]);
-  const [showModal, setShowModal] = useState(false);
   const [loadingReSend, setLoadingReSend] = useState(false);
 
   const [selectedSession, setSelectedSession] = useState(nameSession.length > 0 ? nameSession[0] : '');
   const router = useRouter();
 
+
+  
 
   const handleResend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +49,7 @@ const IndexPage = ({ nameSession }) => {
       formData.append('editedMessage', textValue);
       formData.append('image', imageFile);
 
-      const response = await axios.post('http://localhost:5001/resend-all-messages', formData, {
+      const response = await axios.post(`${baseURL}/resend-all-messages`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -101,7 +107,7 @@ const IndexPage = ({ nameSession }) => {
                 onChange={(e) => setSelectedSession(e.target.value)}
               >
                 {nameSession && nameSession.length > 0 ? (
-                  nameSession.map((session, index) => (
+                  nameSession.map((session: string, index: Key | null | undefined) => (
                     <option key={index} value={session}>{session}</option>
                   ))
                 ) : (

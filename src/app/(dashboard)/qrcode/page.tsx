@@ -6,11 +6,12 @@ import fetch from 'node-fetch';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/option';
 
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
 
 export const createSession = async (nameSession: string | undefined) => {
   try {
-    const response = await fetch(`${process.env.NEXT_API_BASEURL}/start-session?session='+ nameSession +'&scan=true`);
+    const response = await fetch(`${baseURL}/start-session?session='+ nameSession +'&scan=true`);
     if (!response.ok) {
       throw new Error(`Network response was not ok ${response.statusText}`);
     }
@@ -43,7 +44,7 @@ export const createSession = async (nameSession: string | undefined) => {
 
 export const checkSession = async () => {
   try {
-    const response = await fetch(`${process.env.NEXT_API_BASEURL}/sessions?key=mysupersecretkey`);
+    const response = await fetch(`${baseURL}/sessions?key=mysupersecretkey`);
     const data = await response.json(); // Ambil data dari respons sebagai JSON
     console.log(data)
     return data;
@@ -56,7 +57,7 @@ export const checkSession = async () => {
 async function checkQr(nameSession: string | undefined | '', countSession: number) {
   try {
     const nameSession = null
-    const response = await fetch(`${process.env.NEXT_API_BASEURL}/session-status?session=` + nameSession );
+    const response = await fetch(`${baseURL}/session-status?session=` + nameSession );
     if (!response.ok) {
       throw new Error(`Network response was not ok ${response.statusText}`);
     }   

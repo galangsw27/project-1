@@ -7,7 +7,13 @@ import { useRouter } from 'next/navigation';
 import { Form, Button, Container, Col, Row, Modal, Spinner } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 
-const IndexPage = ({ nameSession }) => {
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+
+interface IndexPageProps {
+  nameSession: any; // Specify the type of nameSession
+}
+
+const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {  
   const [csvFile, setCsvFile] = useState<File | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -19,11 +25,13 @@ const IndexPage = ({ nameSession }) => {
   const [selectedSession, setSelectedSession] = useState(nameSession.length > 0 ? nameSession[0] : '');
   const router = useRouter();
 
+
+
   const handleCSVFileRead = (file: File): Promise<string[]> => {
     return new Promise((resolve, reject) => {
       Papa.parse(file, {
         complete: (result) => {
-          const phoneNumbers = result.data.map((row: string[]) => row[0]);
+          const phoneNumbers: any = result ? result.data.map((row: any) => row[0]): [];
           resolve(phoneNumbers);
         },
         error: (error) => reject(error),
@@ -59,7 +67,7 @@ const IndexPage = ({ nameSession }) => {
       formData.append('message', textValue);
       formData.append('image', imageFile);
 
-      const response = await axios.post(`http://localhost:5001/send-blast-message`, formData, {
+      const response = await axios.post(`${baseURL}/send-blast-message`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -117,7 +125,7 @@ const IndexPage = ({ nameSession }) => {
                 onChange={(e) => setSelectedSession(e.target.value)}
               >
                 {nameSession && nameSession.length > 0 ? (
-                  nameSession.map((session, index) => (
+                  nameSession.map((session: string, index:  null | undefined) => (
                     <option key={index} value={session}>{session}</option>
                   ))
                 ) : (
