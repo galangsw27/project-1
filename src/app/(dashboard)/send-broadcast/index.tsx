@@ -7,12 +7,7 @@ import { useRouter } from 'next/navigation';
 import { Form, Button, Container, Col, Row, Modal, Spinner } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 
-
-interface IndexPageProps {
-  nameSession: any; // Specify the type of nameSession
-}
-
-const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
+const IndexPage = ({ nameSession }) => {
   const [csvFile, setCsvFile] = useState<File | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -28,7 +23,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
     return new Promise((resolve, reject) => {
       Papa.parse(file, {
         complete: (result) => {
-          const phoneNumbers: any = result ? result.data.map((row: any) => row[0]): [];
+          const phoneNumbers = result.data.map((row: string[]) => row[0]);
           resolve(phoneNumbers);
         },
         error: (error) => reject(error),
@@ -64,7 +59,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
       formData.append('message', textValue);
       formData.append('image', imageFile);
 
-      const response = await axios.post(`${process.env.NEXT_API_BASEURL}/send-blast-message`, formData, {
+      const response = await axios.post(`http://localhost:5001/send-blast-message`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -122,7 +117,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
                 onChange={(e) => setSelectedSession(e.target.value)}
               >
                 {nameSession && nameSession.length > 0 ? (
-                  nameSession.map((session: string, index:  null | undefined) => (
+                  nameSession.map((session, index) => (
                     <option key={index} value={session}>{session}</option>
                   ))
                 ) : (

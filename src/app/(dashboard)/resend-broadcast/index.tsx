@@ -1,20 +1,18 @@
 'use client';
 
-import { Key, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import Papa from 'papaparse';
 import { useRouter } from 'next/navigation';
 import { Form, Button, Container, Col, Row, Modal, Spinner } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 
-interface IndexPageProps {
-  nameSession: any; // Specify the type of nameSession
-}
-
-const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
+const IndexPage = ({ nameSession }) => {
+  const [csvFile, setCsvFile] = useState<File | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [textValue, setTextValue] = useState<string>('');
+  const [numbers, setNumbers] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [loadingReSend, setLoadingReSend] = useState(false);
 
@@ -45,7 +43,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
       formData.append('editedMessage', textValue);
       formData.append('image', imageFile);
 
-      const response = await axios.post(`${process.env.NEXT_API_BASEURL}/resend-all-messages`, formData, {
+      const response = await axios.post('http://localhost:5001/resend-all-messages', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -103,7 +101,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
                 onChange={(e) => setSelectedSession(e.target.value)}
               >
                 {nameSession && nameSession.length > 0 ? (
-                  nameSession.map((session: string, index: Key | null | undefined) => (
+                  nameSession.map((session, index) => (
                     <option key={index} value={session}>{session}</option>
                   ))
                 ) : (

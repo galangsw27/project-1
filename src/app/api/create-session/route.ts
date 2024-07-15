@@ -6,17 +6,17 @@ export async function POST(req: NextRequest) {
   const { nameSession } = await req.json(); // Mengambil data dari body permintaan
 
   try {
-    const response = await fetch(`${process.env.NEXT_API_BASEURL}/start-session?session=${nameSession}&scan=true`);
+    const response = await fetch(`http://localhost:5001/start-session?session=${nameSession}&scan=true`);
     // console.log(response)
     if (!response.ok) {
       throw new Error(`Network response was not ok ${response.statusText}`);
     }
 
     const html = await response.text();
-    const dom = new JSDOM(html);    
-    const scriptContent: string | null | undefined = dom.window.document.querySelector("script")?.textContent;
+    const dom = new JSDOM(html);
+    const scriptContent = dom.window.document.querySelector("script")?.textContent;
     const base64Pattern = /data:image\/png;base64,[^')]+/;
-    const match = base64Pattern.exec(scriptContent ?? "") ;
+    const match = base64Pattern.exec(scriptContent);
     const qrImage = match ? match[0] : null;
 
     if (qrImage) {

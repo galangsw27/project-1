@@ -37,7 +37,7 @@ export default function Index({ qrData, sessionName }: IndexProps) {
   }, []);
 
   const handleDeleteSession = async (session: string) => {
-    const response = await fetch(`${process.env.NEXT_API_BASEURL}/delete-session?session=${session}&key=mysupersecretkey`, {
+    const response = await fetch(`http://localhost:5001/delete-session?session=${session}&key=mysupersecretkey`, {
       method: 'DELETE',
     });
 
