@@ -1,8 +1,0 @@
-{
-  "/_not-found/page": "app/_not-found/page.js",
-  "/(dashboard)/send-broadcast/page": "app/(dashboard)/send-broadcast/page.js",
-  "/(dashboard)/page": "app/(dashboard)/page.js",
-  "/(dashboard)/resend-broadcast/page": "app/(dashboard)/resend-broadcast/page.js",
-  "/(dashboard)/qrcode/page": "app/(dashboard)/qrcode/page.js",
-  "/(authentication)/login/page": "app/(authentication)/login/page.js"
-}
