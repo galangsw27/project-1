@@ -32,8 +32,6 @@ export const authOptions: NextAuthOptions = {
           return null
         }
         const { email, password } = credentials
-
-        // Replace with real authentication here
         // Replace with real authentication via API
         const response = await fetch(`${baseURL}/login`, {
           method: 'POST',
@@ -60,4 +58,5 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
 }

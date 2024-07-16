@@ -42,11 +42,22 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {  const [csvFi
 
     setLoadingReSend(true);
 
+    function generateRandomString(length: number) {
+      let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let result = '#k3D4n'; // Start with the hashtag
+      let charactersLength = characters.length;
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return result;
+    }
+    
     try {
       const formData = new FormData();
 
       formData.append('session', selectedSession);
-      formData.append('editedMessage', textValue);
+      let randomString = generateRandomString(5); 
+      formData.append('editedMessage', textValue+`\n`+ randomString);
       formData.append('image', imageFile);
 
       const response = await axios.post(`${baseURL}/resend-all-messages`, formData, {

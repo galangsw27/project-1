@@ -57,6 +57,17 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
     }
 
     setLoadingSend(true);
+    
+    function generateRandomString(length: number) {
+      let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let result = '#k3D4n'; // Start with the hashtag
+      let charactersLength = characters.length;
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return result;
+    }
+    
 
     try {
       const phoneNumbers = await handleCSVFileRead(csvFile);
@@ -64,7 +75,8 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
 
       formData.append('session', selectedSession);
       phoneNumbers.forEach((number) => formData.append('to[]', number));
-      formData.append('message', textValue);
+      let randomString = generateRandomString(5); 
+      formData.append('message', textValue+`\n`+ randomString);
       formData.append('image', imageFile);
 
       const response = await axios.post(`${baseURL}/send-blast-message`, formData, {
