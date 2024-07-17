@@ -9,7 +9,6 @@ export async function POST(req: NextRequest) {
 
   try {
     const response = await fetch(`${baseURL}/start-session?session=${nameSession}&scan=true`);
-    // console.log(response)
     if (!response.ok) {
       throw new Error(`Network response was not ok ${response.statusText}`);
     }

@@ -1,6 +1,7 @@
 import { Container } from 'react-bootstrap';
 import React from 'react';
 
+
 export default function Layout({
   children,
 }: {
@@ -41,7 +42,8 @@ export default function Layout({
         }}
       />
       <Container style={{ position: 'relative', zIndex: 3 }}>
-        {children}
+
+      {children}
       </Container>
     </div>
   );

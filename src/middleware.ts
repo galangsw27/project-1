@@ -47,7 +47,6 @@ export default async function middleware(request: NextRequest, event: NextFetchE
     return res
     
   }
-  // console.log(response)
 
   return response
 }

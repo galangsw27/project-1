@@ -1,8 +1,8 @@
+
 import { Col, Row } from 'react-bootstrap'
 import LoginForm from '@/app/(authentication)/login/login'
 import { SearchParams } from '@/types/next'
 import { getDictionary } from '@/locales/dictionary'
-import Link from 'next/link'
 
 export default async function Page({ searchParams }: { searchParams: SearchParams }) {
   const { callbackUrl } = searchParams
@@ -17,7 +17,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
   }
 
   return (
-    
+
     <Row className="justify-content-center align-items-center px-2">
       <Col lg={8}>
         <Row >
@@ -29,7 +29,6 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
             }}>
               
             <div style={{padding: "0 70px"}} >
-              <img src="/assets/img/logo.png" alt="" style={{width: "50%", marginBottom: 40}} />
               <h1 style={{color: "white", marginBottom: 20}}>{dict.login.title}</h1>
               <p className="text-light-100 dark:text-gray-500" style={{color: "white"}} >{dict.login.description}</p>
 

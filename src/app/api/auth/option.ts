@@ -15,7 +15,6 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     async session({ session, token }) {
-      // console.log('ini Session', token.user.authToken)
       return { ...session, user: token.user }
 
 

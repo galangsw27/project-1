@@ -18,7 +18,6 @@ export default function Register() {
   const [error, setError] = useState('')
 
   const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
-  console.log(baseURL)
 
 
   const register = async (event: React.FormEvent) => {

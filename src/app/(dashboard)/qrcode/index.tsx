@@ -66,7 +66,6 @@ export default function Index({ qrData, sessionName }: IndexProps) {
   
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setSessionImage(data.qrImage);
         // alert(`Session ${newSessionName} created successfully.`);
       } else {

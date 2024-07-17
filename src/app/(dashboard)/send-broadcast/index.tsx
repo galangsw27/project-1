@@ -85,7 +85,6 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
         },
       });
 
-      console.log('Response:', response.data);
       const totalFail = response.data.data.failureCount;
       const totalSuccess = response.data.data.successCount;
 
