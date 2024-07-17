@@ -1,15 +1,22 @@
-FROM node:alpine AS builder
-
+FROM node:18-alpine AS base
+ 
 WORKDIR /app
-
-COPY package*.json ./
-RUN npm install -frozen-lockfile
+ 
+COPY package.json ./
+COPY yarn.lock ./
+ 
+RUN yarn install --network-timeout=300000
 
 COPY . .
-    COPY .env.production .env
-    
-RUN npm run build
-ENV NODE_ENV=production
-ENV NODE_ENV=production
-
-    
+ 
+RUN yarn build
+ 
+FROM node:18-alpine AS runner
+ 
+WORKDIR /app
+ 
+COPY --from=base /app ./
+ 
+EXPOSE 3000
+ 
+CMD ["yarn", "start"]

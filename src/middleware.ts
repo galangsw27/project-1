@@ -16,6 +16,7 @@ export default async function middleware(request: NextRequest, event: NextFetchE
 
   const locale = match(languages, locales, defaultLocale)
   const response = NextResponse.next()
+
   if (!request.cookies.get('locale')) {
     response.cookies.set('locale', locale)
   }
@@ -25,10 +26,14 @@ export default async function middleware(request: NextRequest, event: NextFetchE
    * - login
    * - register
    */
+
+  
+  const isStaticAsset = request.nextUrl.pathname.startsWith('/assets/');
   if (![
     '/login',
     '/register',
-  ].includes(request.nextUrl.pathname)) {
+  ].includes(request.nextUrl.pathname)    && !isStaticAsset
+) {
     const res: NextMiddlewareResult = await withAuth(
       // Response with local cookies
       () => response,
