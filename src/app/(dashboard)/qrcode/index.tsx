@@ -28,6 +28,8 @@ export default function Index({ qrData, sessionName }: IndexProps) {
   const [sessionImage, setSessionImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+
   useEffect(() => {
     const interval = setInterval(() => {
       setDots((prevDots) => (prevDots.length < 3 ? `${prevDots}.` : ''));
@@ -37,7 +39,7 @@ export default function Index({ qrData, sessionName }: IndexProps) {
   }, []);
 
   const handleDeleteSession = async (session: string) => {
-    const response = await fetch(`http://localhost:5001/delete-session?session=${session}&key=mysupersecretkey`, {
+    const response = await fetch(`${baseURL}/delete-session?session=${session}&key=mysupersecretkey`, {
       method: 'DELETE',
     });
 
