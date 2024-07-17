@@ -11,3 +11,38 @@
     @extend .bg-dark;
   }
 }
+
+
+.underline-input {
+  border: none;
+  border-bottom: 1px solid #ccc;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.underline-input:focus {
+  border-bottom: 2px solid #007bff;
+  box-shadow: none;
+  outline: none;
+}
+
+.background {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('/public/assets/img/bg-login.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(220, 191, 255, 0.5); /* Ubah angka 0.5 untuk mengatur kecerahan overlay */
+}

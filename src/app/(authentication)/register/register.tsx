@@ -17,6 +17,9 @@ export default function Register() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
 
+  const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+
+
   const register = async (event: React.FormEvent) => {
     event.preventDefault()
     setSubmitting(true)
@@ -29,7 +32,7 @@ export default function Register() {
     }
 
     try {
-      const res = await fetch('http://localhost:5001/register', {
+      const res = await fetch(`${baseURL}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

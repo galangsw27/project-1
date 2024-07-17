@@ -1,8 +1,8 @@
+
 import { Col, Row } from 'react-bootstrap'
 import LoginForm from '@/app/(authentication)/login/login'
 import { SearchParams } from '@/types/next'
 import { getDictionary } from '@/locales/dictionary'
-import Link from 'next/link'
 
 export default async function Page({ searchParams }: { searchParams: SearchParams }) {
   const { callbackUrl } = searchParams
@@ -17,31 +17,25 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
   }
 
   return (
-    
-    <Row className="justify-content-center align-items-center px-3">
+
+    <Row className="justify-content-center align-items-center px-2">
       <Col lg={8}>
-        <Row>
-          <Col md={7} className="bg-white dark:bg-dark border p-5">
-            <div>
-              <h1>{dict.login.title}</h1>
-              <p className="text-black-50 dark:text-gray-500">{dict.login.description}</p>
+        <Row >
+          <Col className=" dark:bg-dark align-content-center text-left p-5 " 
+          style={{
+            backgroundColor: "rgb(81, 43, 129, 0.5)", 
+            height: "600px", borderRadius: "12px", 
+            boxShadow: "rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset" 
+            }}>
+              
+            <div style={{padding: "0 70px"}} >
+              <h1 style={{color: "white", marginBottom: 20}}>{dict.login.title}</h1>
+              <p className="text-light-100 dark:text-gray-500" style={{color: "white"}} >{dict.login.description}</p>
 
               <LoginForm callbackUrl={getCallbackUrl()} />
             </div>
           </Col>
-          <Col
-            md={5}
-            className="bg-primary text-white d-flex align-items-center justify-content-center p-5"
-          >
-            <div className="text-center">
-              <h2>Kedan Joss</h2>
-              {/* <h2>{dict.login.signup.title}</h2> */}
-              {/* <p>{dict.login.signup.description}</p>
-              <Link className="btn btn-lg btn-outline-light mt-3" href="/register">
-                {dict.signup.register_now}
-              </Link> */}
-            </div>
-          </Col>
+         
         </Row>
       </Col>
     </Row>

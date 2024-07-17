@@ -7,20 +7,24 @@ import { useRouter } from 'next/navigation';
 import { Form, Button, Container, Col, Row, Modal, Spinner } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+
+
 interface IndexPageProps {
   nameSession: any; // Specify the type of nameSession
 }
 
-const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
+const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {  const [csvFile, setCsvFile] = useState<File | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [textValue, setTextValue] = useState<string>('');
-  const [showModal, setShowModal] = useState(false);
   const [loadingReSend, setLoadingReSend] = useState(false);
 
   const [selectedSession, setSelectedSession] = useState(nameSession.length > 0 ? nameSession[0] : '');
   const router = useRouter();
 
+
+  
 
   const handleResend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,21 +42,31 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
 
     setLoadingReSend(true);
 
+    function generateRandomString(length: number) {
+      let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let result = '#k3D4n'; // Start with the hashtag
+      let charactersLength = characters.length;
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return result;
+    }
+    
     try {
       const formData = new FormData();
 
       formData.append('session', selectedSession);
-      formData.append('editedMessage', textValue);
+      let randomString = generateRandomString(5); 
+      formData.append('editedMessage', textValue+`\n`+ randomString);
       formData.append('image', imageFile);
 
-      const response = await axios.post(`${process.env.NEXT_API_BASEURL}/resend-all-messages`, formData, {
+      const response = await axios.post(`${baseURL}/resend-all-messages`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
 
-      console.log('Response:', response.data);
       const totalFail = response.data.data.failureCount;
       const totalSuccess = response.data.data.successCount;
 

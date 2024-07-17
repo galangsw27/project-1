@@ -1,9 +1,9 @@
 {
   "login": {
-    "title": "Login",
-    "description": "Sign in to your account",
+    "title": "Hi Kedan Team!",
+    "description": "Log in to your account",
     "form": {
-      "username": "Username",
+      "username": "Email",
       "password": "Password",
       "submit": "Login"
     },
@@ -13,7 +13,7 @@
       "description": "Don't Have Admin Account ? "
     },
     "message": {
-      "auth_failed": "Invalid username or password"
+      "auth_failed": "Invalid email or password"
     }
   },
   "pagination": {

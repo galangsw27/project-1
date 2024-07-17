@@ -13,6 +13,7 @@ import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import useDictionary from '@/locales/dictionary-hook'
 
+
 export default function Login({ callbackUrl }: { callbackUrl: string }) {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
@@ -61,6 +62,8 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
   }
 
 
+  
+
   return (
     
     <>
@@ -85,7 +88,7 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
             required
             disabled={submitting}
             placeholder={dict.login.form.username}
-            aria-label="Username"
+            aria-label="Email"
           />
         </InputGroup>
 
@@ -107,21 +110,23 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
         </InputGroup>
 
         <Row className="align-items-center">
-          <Col xs={6}>
+          <Col>
             <Button
+              style={{
+                width: "100%",
+                background: "linear-gradient(to left, #2c3e50, #3498db);", // Ganti dengan warna gradient yang diinginkan
+                border: "none", // Menghilangkan border jika perlu
+                color: "#fff" ,// Warna teks tombol
+                fontWeight: 600
+              }}
               className="px-4"
-              variant="primary"
               type="submit"
               disabled={submitting}
             >
               {dict.login.form.submit}
             </Button>
           </Col>
-          <Col xs={6} className="text-end">
-            <Link className="px-0" href="#">
-              {dict.login.forgot_password}
-            </Link>
-          </Col>
+         
         </Row>
       </Form>
     </>

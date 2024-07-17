@@ -30,7 +30,7 @@ describe('login spec', () => {
 
     cy.intercept('POST', '/api/auth/callback/credentials', {
       statusCode: 401,
-      body: { url: 'http://localhost:3000/api/auth/error?error=Invalid%20username%20or%20password' },
+      body: { url: 'http://kitakitakedan.com/api/auth/error?error=Invalid%20username%20or%20password' },
     })
 
     // Submit

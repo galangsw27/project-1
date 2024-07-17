@@ -2,6 +2,9 @@ import { NextAuthOptions, User } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { getDictionary } from '@/locales/dictionary'
 
+
+const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
+
 export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ user, token }) {
@@ -12,7 +15,6 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     async session({ session, token }) {
-      // console.log('ini Session', token.user.authToken)
       return { ...session, user: token.user }
 
 
@@ -29,10 +31,8 @@ export const authOptions: NextAuthOptions = {
           return null
         }
         const { email, password } = credentials
-
-        // Replace with real authentication here
         // Replace with real authentication via API
-        const response = await fetch('http://localhost:5001/login', {
+        const response = await fetch(`${baseURL}/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -57,4 +57,5 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
 }

@@ -23,7 +23,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" data-bs-theme={getTheme()}>
-      <body>
+      <body >
         <ProgressBar />
         <DictionaryProvider dictionary={dictionary}>
           {children}
