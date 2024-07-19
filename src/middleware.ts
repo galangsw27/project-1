@@ -7,8 +7,6 @@ import { getLocales } from '@/locales/dictionary'
 import { defaultLocale } from '@/locales/config'
 import { withNextHeaders } from 'next-headers'
 
-
-
 export default async function middleware(request: NextRequest, event: NextFetchEvent) {
   const headers = { 'accept-language': request.headers.get('accept-language') ?? '' }
   const languages = new Negotiator({ headers }).languages()
@@ -27,25 +25,27 @@ export default async function middleware(request: NextRequest, event: NextFetchE
    * - register
    */
 
-  
-  const isStaticAsset = request.nextUrl.pathname.startsWith('/assets/');
+  // Redirect /register to /login
+  if (request.nextUrl.pathname === '/register') {
+    const loginUrl = new URL('/login', request.url)
+    return NextResponse.redirect(loginUrl.toString())
+  }
+
+  const isStaticAsset = request.nextUrl.pathname.startsWith('/assets/')
   if (![
     '/login',
-    '/register',
-  ].includes(request.nextUrl.pathname)    && !isStaticAsset
-) {
+  ].includes(request.nextUrl.pathname) && !isStaticAsset) {
     const res: NextMiddlewareResult = await withAuth(
       // Response with local cookies
       () => response,
       {
-      // Matches the pages config in `[...nextauth]`
+        // Matches the pages config in `[...nextauth]`
         pages: {
           signIn: '/login',
         },
       },
     )(request as NextRequestWithAuth, event)
     return res
-    
   }
 
   return response

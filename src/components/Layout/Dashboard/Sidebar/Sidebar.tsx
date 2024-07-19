@@ -50,17 +50,17 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
           width="118"
           height="46"
         >
-          <title>CoreUI Logo</title>
-          <use xlinkHref="" />
-        </svg>
+          <title>Kedan Logo</title>
+          <use xlinkHref="/assets/img/logo.svg#full" />
+          </svg>
         <svg
           className="sidebar-brand-narrow d-none"
           width="46"
           height="46"
         >
-          <title>CoreUI Logo</title>
-          <use xlinkHref="" />
-        </svg>
+          <title>Kedan Logo</title>
+          <use xlinkHref="/assets/img/logo.svg#full" />
+          </svg>
       </div>
 
       <div className="sidebar-nav flex-fill border-top">

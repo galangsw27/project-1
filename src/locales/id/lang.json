@@ -1,0 +1,333 @@
+{
+    "login": {
+      "title": "Hai Tim Kedan!",
+      "description": "Masuk ke akun Anda",
+      "form": {
+        "username": "Email",
+        "password": "Kata Sandi",
+        "submit": "Masuk"
+      },
+      "forgot_password": "Lupa kata sandi?",
+      "signup": {
+        "title": "Daftar",
+        "description": "Tidak Punya Akun Admin?"
+      },
+      "message": {
+        "auth_failed": "Email atau kata sandi tidak valid"
+      }
+    },
+    "pagination": {
+      "summary": "Menampilkan {{from}} hingga {{to}} dari {{total}} hasil",
+      "rows_per_page": "Baris per halaman"
+    },
+    "signup": {
+      "title": "Daftar",
+      "description": "Buat akun Anda",
+      "register_now": "Daftar Sekarang!",
+      "form": {
+        "username": "Nama Pengguna",
+        "email": "Email",
+        "password": "Kata Sandi",
+        "confirm_password": "Konfirmasi Kata Sandi",
+        "submit": "Buat Akun"
+      }
+    },
+    "action": {
+      "info": "Info",
+      "edit": "Edit",
+      "delete": "Hapus",
+      "submit": "Kirim",
+      "submitting": "Mengirim...",
+      "reset": "Atur Ulang"
+    },
+    "theme": {
+      "light": "Terang",
+      "dark": "Gelap",
+      "auto": "Otomatis"
+    },
+    "dashboard": {
+      "featured": {
+        "user": "Pengguna",
+        "income": "Pendapatan",
+        "conversion_rate": "Tingkat Konversi",
+        "sessions": "Sesi",
+        "action": {
+          "action1": "Aksi",
+          "action2": "Aksi lainnya",
+          "action3": "Lainnya"
+        }
+      },
+      "traffic": {
+        "title": "Lalu Lintas",
+        "duration": "Januari - Juli 2021",
+        "option": {
+          "day": "Hari",
+          "month": "Bulan",
+          "year": "Tahun"
+        },
+        "chart": {
+          "xlabel1": "Januari",
+          "xlabel2": "Februari",
+          "xlabel3": "Maret",
+          "xlabel4": "April",
+          "xlabel5": "Mei",
+          "xlabel6": "Juni",
+          "xlabel7": "Juli"
+        },
+        "users": "Pengguna",
+        "views": "Tampilan",
+        "category1": "Kunjungan",
+        "category2": "Unik",
+        "category3": "Tampilan halaman",
+        "category4": "Pengguna baru",
+        "category5": "Tingkat pentalan"
+      },
+      "social": {
+        "facebook": {
+          "label1": "Teman",
+          "label2": "Beranda"
+        },
+        "twitter": {
+          "label1": "Pengikut",
+          "label2": "Tweet"
+        },
+        "instagram": {
+          "label1": "Kontak",
+          "label2": "Beranda"
+        }
+      },
+      "sales": {
+        "title": "Ringkasan Pesan Broadcast",
+        "stats": {
+          "stat1": "Total Sesi",
+          "stat2": "Broadcast Berhasil",
+          "stat3": "Broadcast Gagal",
+          "stat4": "Jumlah Diblokir"
+        },
+        "monday": "Senin",
+        "tuesday": "Selasa",
+        "wednesday": "Rabu",
+        "thursday": "Kamis",
+        "friday": "Jumat",
+        "saturday": "Sabtu",
+        "sunday": "Minggu",
+        "male": "Laki-laki",
+        "female": "Perempuan",
+        "organic": "Pencarian Organik",
+        "facebook": "Facebook",
+        "twitter": "Twitter",
+        "linkedin": "LinkedIn"
+      },
+      "listing": {
+        "headers": {
+          "header1": "Sesi",
+          "header2": "Total Broadcast",
+          "header3": "Metode Pembayaran",
+          "header4": "Aktivitas"
+        },
+        "user_status": {
+          "new": "Baru",
+          "recurring": "Berulang"
+        },
+        "registered": "Terdaftar",
+        "last_login": "Login terakhir",
+        "usage_duration": "11 Jun 2020 - 10 Jul 2020",
+        "registered_at": "1 Jan 2020",
+        "items": {
+          "item1": {
+            "name": "Yiorgos Avraamu",
+            "login_at": "10 detik yang lalu"
+          },
+          "item2": {
+            "name": "Avram Tarasios",
+            "login_at": "5 menit yang lalu"
+          },
+          "item3": {
+            "name": "Quintin Ed",
+            "login_at": "1 jam yang lalu"
+          },
+          "item4": {
+            "name": "Enéas Kwadwo",
+            "login_at": "Bulan lalu"
+          },
+          "item5": {
+            "name": "Agapetus Tadeáš",
+            "login_at": "Minggu lalu"
+          },
+          "item6": {
+            "name": "Friderik Dávid",
+            "login_at": "Kemarin"
+          }
+        }
+      }
+    },
+    "pokemons": {
+      "title": "Pokémon",
+      "add_new": "Tambahkan baru",
+      "attribute": {
+        "name": "Nama",
+        "type": "Jenis",
+        "egg_group": "Kelompok Telur",
+        "hp": "Hp",
+        "attack": "Serangan",
+        "defense": "Pertahanan",
+        "sp_attack": "Serangan Khusus",
+        "sp_defense": "Pertahanan Khusus",
+        "speed": "Kecepatan",
+        "total": "Total"
+      }
+    },
+    "featured_nav": {
+      "dashboard": "Dasbor",
+      "users": "Pengguna",
+      "settings": "Pengaturan"
+    },
+    "notification": {
+      "message": "Anda memiliki {{total}} notifikasi",
+      "items": {
+        "new_user": "Pengguna baru terdaftar",
+        "deleted_user": "Pengguna dihapus",
+        "sales_report": "Laporan penjualan siap",
+        "new_client": "Klien baru",
+        "server_overloaded": "Server kelebihan beban"
+      },
+      "server": {
+        "title": "server",
+        "processes": "Proses",
+        "cores": "Inti",
+        "items": {
+          "cpu": "Penggunaan CPU",
+          "memory": "Penggunaan Memori",
+          "ssd1": "Penggunaan SSD 1"
+        }
+      }
+    },
+    "task": {
+      "message": "Anda memiliki {{total}} tugas yang tertunda",
+      "items": {
+        "task1": "Tingkatkan Next.JS",
+        "task2": "Latih Pokemons",
+        "task3": "Lengkapi Pokedex",
+        "task4": "Tangkap semua shiny",
+        "task5": "Kalahkan semua gym"
+      },
+      "view_all": "Lihat semua tugas"
+    },
+    "messages": {
+      "message": "Anda memiliki {{total}} pesan",
+      "items": {
+        "item1": {
+          "user": "John Doe",
+          "time": "Baru saja",
+          "title": "Hewan Peliharaan Pikachu",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt"
+        },
+        "item2": {
+          "user": "John Doe",
+          "time": "5 menit yang lalu",
+          "title": "Dandani Eevee",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt"
+        },
+        "item3": {
+          "user": "John Doe",
+          "time": "1:52 PM",
+          "title": "Latihan Tim",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt"
+        },
+        "item4": {
+          "user": "John Doe",
+          "time": "4:03 PM",
+          "title": "Pergi ke Zona Safari",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt"
+        }
+      }
+    },
+    "profile": {
+      "account": {
+        "title": "Akun",
+        "items": {
+          "updates": "Pembaruan",
+          "messages": "Pesan",
+          "tasks": "Tugas",
+          "comments": "Komentar"
+        }
+      },
+      "settings": {
+        "title": "Pengaturan",
+        "items": {
+          "profile": "Profil",
+          "settings": "Pengaturan",
+          "payments": "Pembayaran",
+          "projects": "Proyek"
+        }
+      },
+      "lock_account": "Kunci akun",
+      "logout": "Keluar"
+    },
+    "breadcrumb": {
+      "home": "Beranda",
+      "library": "Perpustakaan",
+      "data": "Data"
+    },
+    "sidebar": {
+      "items": {
+        "dashboard": "Dasbor",
+        "send": "Kirim Broadcast",
+        "qrcode": "Registrasi QR",
+        "groups": "Kelola Grup",
+        "resend": "Kirim Ulang Broadcast",
+        "main_fitur": "Fitur Utama",
+        "colors": "Warna",
+        "typography": "Tipografi",
+        "components": "Komponen",
+        "accordion": "Akor",
+        "breadcrumb": "Breadcrumb",
+        "cards": "Kartu",
+        "carousel": "Karusel",
+        "collapse": "Collapse",
+        "list_group": "Grup Daftar",
+        "navs": "Navigasi",
+        "pagination": "Paginasi",
+        "popovers": "Popover",
+        "progress": "Progres",
+        "scrollspy": "Scrollspy",
+        "spinners": "Spinner",
+        "tables": "Tabel",
+        "tabs": "Tab",
+        "tooltips": "Tooltip",
+        "buttons": "Tombol",
+        "buttons_group": "Grup Tombol",
+        "dropdowns": "Dropdown",
+        "charts": "Bagan",
+        "form_control": "Kontrol Formulir",
+        "select": "Pilih",
+        "checks_and_radios": "Cek dan Radio",
+        "range": "Rentang",
+        "input_group": "Grup Input",
+        "floating_labels": "Label Mengambang",
+        "layout": "Tata Letak",
+        "validation": "Validasi",
+        "core_ui_icons": "Ikon CoreUI",
+        "core_ui_icons_brand": "Ikon CoreUI - Merek",
+        "core_ui_icons_flag": "Ikon CoreUI - Bendera",
+        "alerts": "Peringatan",
+        "badge": "Lencana",
+        "modals": "Modal",
+        "toasts": "Toast",
+        "widgets": "Widget",
+        "login": "Masuk",
+        "register": "Daftar",
+        "error404": "Kesalahan 404",
+        "error500": "Kesalahan 500",
+        "docs": "Dokumen",
+        "try_core_ui_pro": "Coba CoreUI PRO",
+        "base": "Dasar",
+        "forms": "Formulir",
+        "icons": "Ikon",
+        "notifications": "Notifikasi",
+        "extras": "Ekstra",
+        "pages": "Halaman"
+      }
+    }
+  }
+  

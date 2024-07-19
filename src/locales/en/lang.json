@@ -99,7 +99,7 @@
     "sales": {
       "title": "Summary Broadcast Message",
       "stats": {
-        "stat1": "Total Admin",
+        "stat1": "Total Session",
         "stat2": "Broadcast Success",
         "stat3": "Broadcast Failed",
         "stat4": "Number Banned"
@@ -120,7 +120,7 @@
     },
     "listing": {
       "headers": {
-        "header1": "User",
+        "header1": "Session",
         "header2": "Total Broadcast",
         "header3": "Payment Method",
         "header4": "Activity"

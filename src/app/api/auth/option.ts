@@ -40,7 +40,8 @@ export const authOptions: NextAuthOptions = {
           body: JSON.stringify({ email, password }),
         })
 
-        const data = await response.json()    
+        const data = await response.json()
+            
         const dict = await getDictionary()
         if (!response.ok || !data.token) {
           throw new Error(dict.login.message.auth_failed)
