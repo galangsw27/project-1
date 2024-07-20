@@ -9,22 +9,20 @@ import Swal from 'sweetalert2';
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
-
 interface IndexPageProps {
   nameSession: any; // Specify the type of nameSession
 }
 
-const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {  const [csvFile, setCsvFile] = useState<File | null>(null);
+const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {  
+  const [csvFile, setCsvFile] = useState<File | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [textValue, setTextValue] = useState<string>('');
   const [loadingReSend, setLoadingReSend] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const [selectedSession, setSelectedSession] = useState(nameSession.length > 0 ? nameSession[0] : '');
   const router = useRouter();
-
-
-  
 
   const handleResend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,13 +32,13 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {  const [csvFi
       return;
     }
 
-    if ( !textValue || !imageFile) {
+    if (!textValue || !imageFile) {
       alert('Please fill in all fields');
       return;
     }
 
-
     setLoadingReSend(true);
+    setShowModal(true);
 
     function generateRandomString(length: number) {
       let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -51,27 +49,27 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {  const [csvFi
       }
       return result;
     }
-    
-      try {
-        const formData = new FormData();
-        formData.append('session', selectedSession);
-        let randomString = generateRandomString(5); 
-        formData.append('editedMessage', textValue + `\n` + randomString);
-        formData.append('image', imageFile);
-      
-        // Kirim data ke server-side endpoint Next.js
-        const response = await fetch('/api/resend-all-messages', {
-          method: 'POST',
-          body: formData,
-        });
-      
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-      
-        const data = await response.json();
-        console.log(data);
-      
+
+    try {
+      const formData = new FormData();
+      formData.append('session', selectedSession);
+      let randomString = generateRandomString(5);
+      formData.append('editedMessage', textValue + `\n` + randomString);
+      formData.append('image', imageFile);
+
+      // Kirim data ke server-side endpoint Next.js
+      const response = await fetch('/api/resend-all-messages', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log(data);
+
       const totalFail = data.data.failureCount;
       const totalSuccess = data.data.successCount;
 
@@ -91,8 +89,9 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {  const [csvFi
       });
     } finally {
       setLoadingReSend(false);
+      setShowModal(false);
     }
-    };
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
@@ -111,76 +110,87 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {  const [csvFi
 
   return (
     <Container className="mt-4">
-  <h1 className="mb-4 text-center">Resend Broadcast</h1>
-  <Form onSubmit={handleResend} className="p-4 border rounded shadow-sm bg-light">
-    <Row className="mb-3">
-      <Col md={6}>
-        <Form.Group controlId="sessionSelect">
-          <Form.Label>Select Session:</Form.Label>
-          <Form.Select
-            value={selectedSession}
-            onChange={(e) => setSelectedSession(e.target.value)}
-          >
-            {nameSession && nameSession.length > 0 ? (
-              nameSession.map((session: string, index: Key | null | undefined) => (
-                <option key={index} value={session}>{session}</option>
-              ))
-            ) : (
-              <option value="">No sessions available</option>
-            )}
-          </Form.Select>
-        </Form.Group>
-      </Col>
-      <Col md={6}>
-        <Form.Group controlId="imageFile">
-          <Form.Label>Image File:</Form.Label>
-          <Form.Control
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="mb-2"
-          />
-          {imagePreview && (
-            <div className="text-center">
-              <h5>Image Preview:</h5>
-              <img
-                src={imagePreview}
-                alt="Image Preview"
-                className="img-fluid rounded border"
-                style={{ maxWidth: '100%', height: 'auto' }}
+      <h1 className="mb-4 text-center">Resend Broadcast</h1>
+      <Form onSubmit={handleResend} className="p-4 border rounded shadow-sm bg-light">
+        <Row className="mb-3">
+          <Col md={6}>
+            <Form.Group controlId="sessionSelect">
+              <Form.Label>Select Session:</Form.Label>
+              <Form.Select
+                value={selectedSession}
+                onChange={(e) => setSelectedSession(e.target.value)}
+              >
+                {nameSession && nameSession.length > 0 ? (
+                  nameSession.map((session: string, index: Key | null | undefined) => (
+                    <option key={index} value={session}>{session}</option>
+                  ))
+                ) : (
+                  <option value="">No sessions available</option>
+                )}
+              </Form.Select>
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group controlId="imageFile">
+              <Form.Label>Image File:</Form.Label>
+              <Form.Control
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="mb-2"
               />
-            </div>
-          )}
+              {imagePreview && (
+                <div className="text-center">
+                  <h5>Image Preview:</h5>
+                  <img
+                    src={imagePreview}
+                    alt="Image Preview"
+                    className="img-fluid rounded border"
+                    style={{ maxWidth: '100%', height: 'auto' }}
+                  />
+                </div>
+              )}
+            </Form.Group>
+          </Col>
+        </Row>
+        <Form.Group controlId="textValue" className="mb-3">
+          <Form.Label>Message:</Form.Label>
+          <Form.Control
+            as="textarea"
+            value={textValue}
+            onChange={(e) => setTextValue(e.target.value)}
+            rows={10}
+            className="border-0 shadow-sm"
+          />
         </Form.Group>
-      </Col>
-    </Row>
-    <Form.Group controlId="textValue" className="mb-3">
-      <Form.Label>Message:</Form.Label>
-      <Form.Control
-        as="textarea"
-        value={textValue}
-        onChange={(e) => setTextValue(e.target.value)}
-        rows={10}
-        className="border-0 shadow-sm"
-      />
-    </Form.Group>
-    <Button
-      type="submit"
-      variant="success"
-      className="w-100"
-      disabled={loadingReSend}
-    >
-      {loadingReSend ? (
-        <>
-          <Spinner animation="border" size="sm" />
-          <span className="ms-3">Sending...</span>
-        </>
-      ) : (
-        'Re Send'
-      )}
-    </Button>
-  </Form>
-</Container>
+        <Button
+          type="submit"
+          variant="success"
+          className="w-100"
+          disabled={loadingReSend}
+        >
+          {loadingReSend ? (
+            <>
+              <Spinner animation="border" size="sm" />
+              <span className="ms-3">Sending...</span>
+            </>
+          ) : (
+            'Re Send'
+          )}
+        </Button>
+      </Form>
+
+      <Modal show={showModal} centered>
+        <Modal.Body>
+          <div className="d-flex justify-content-center align-items-center">
+            <Spinner animation="border" role="status">
+              <span className="sr-only">Sending...</span>
+            </Spinner>
+            <span className="ml-2">Sedang mengirim semua pesan...</span>
+          </div>
+        </Modal.Body>
+      </Modal>
+    </Container>
   );
 };
 
