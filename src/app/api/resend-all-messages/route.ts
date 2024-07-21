@@ -9,15 +9,17 @@ export async function POST(req: NextRequest) {
 
   try {
     // Mengambil session dari NextAuth
-    const session = await getServerSession(authOptions);
-    const token = session?.user?.authToken;
+    const session2 = await getServerSession(authOptions);
+    const token = session2?.user?.authToken;
 
     // Menerima data dari request
-    const { session: selectedSession, editedMessage, image } = await req.formData();
+    const { session: selectedSession, editedMessage, image, minDelay, maxDelay } = await req.formData();
     
     formData.append('session', selectedSession);
     formData.append('editedMessage', editedMessage);
     formData.append('image', image);
+    formData.append('minDelay', minDelay);
+    formData.append('maxDelay', maxDelay);
 
     const response = await fetch(`${baseURL}/resend-all-messages`, {
       method: 'POST',

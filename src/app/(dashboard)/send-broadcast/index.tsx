@@ -21,6 +21,9 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
   const [numbers, setNumbers] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [loadingSend, setLoadingSend] = useState(false);
+  
+  const [minDelay, setMinDelay] = useState<number>(0);
+  const [maxDelay, setMaxDelay] = useState<number>(0);
 
   const [selectedSession, setSelectedSession] = useState(nameSession.length > 0 ? nameSession[0] : '');
   const router = useRouter();
@@ -74,6 +77,8 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
       const formData = new FormData();
 
       formData.append('session', selectedSession);
+      formData.append('minDelay', minDelay.toString());
+      formData.append('maxDelay', maxDelay.toString());
       phoneNumbers.forEach((number) => formData.append('to[]', number));
       let randomString = generateRandomString(5); 
       formData.append('message', textValue+`\n`+ randomString);
@@ -199,6 +204,30 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
           </Form.Group>
         </Col>
       </Row>
+      <Row className="mb-3">
+          <Col md={6}>
+            <Form.Group controlId="minDelay">
+              <Form.Label>Minimum Delay (ms):</Form.Label>
+              <Form.Control
+                type="number"
+                value={minDelay}
+                onChange={(e) => setMinDelay(parseInt(e.target.value))}
+                min="0"
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group controlId="maxDelay">
+              <Form.Label>Maximum Delay (ms):</Form.Label>
+              <Form.Control
+                type="number"
+                value={maxDelay}
+                onChange={(e) => setMaxDelay(parseInt(e.target.value))}
+                min="0"
+              />
+            </Form.Group>
+          </Col>
+        </Row>
       <Form.Group controlId="textValue" className="mb-3">
         <Form.Label>Message:</Form.Label>
         <Form.Control

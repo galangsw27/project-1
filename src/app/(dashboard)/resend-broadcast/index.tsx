@@ -1,8 +1,6 @@
 'use client';
 
 import { Key, useState } from 'react';
-import axios from 'axios';
-import Papa from 'papaparse';
 import { useRouter } from 'next/navigation';
 import { Form, Button, Container, Col, Row, Modal, Spinner } from 'react-bootstrap';
 import Swal from 'sweetalert2';
@@ -14,10 +12,11 @@ interface IndexPageProps {
 }
 
 const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {  
-  const [csvFile, setCsvFile] = useState<File | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [textValue, setTextValue] = useState<string>('');
+  const [minDelay, setMinDelay] = useState<number>(0);
+  const [maxDelay, setMaxDelay] = useState<number>(0);
   const [loadingReSend, setLoadingReSend] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -32,8 +31,8 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
       return;
     }
 
-    if (!textValue || !imageFile) {
-      alert('Please fill in all fields');
+    if (!textValue || !imageFile || minDelay < 0 || maxDelay < 0 || minDelay > maxDelay) {
+      alert('Please fill in all fields with valid values');
       return;
     }
 
@@ -52,6 +51,8 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
 
     try {
       const formData = new FormData();
+      formData.append('minDelay', minDelay.toString());
+      formData.append('maxDelay', maxDelay.toString());
       formData.append('session', selectedSession);
       let randomString = generateRandomString(5);
       formData.append('editedMessage', textValue + `\n` + randomString);
@@ -66,6 +67,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
+
 
       const data = await response.json();
       console.log(data);
@@ -150,6 +152,30 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
                   />
                 </div>
               )}
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row className="mb-3">
+          <Col md={6}>
+            <Form.Group controlId="minDelay">
+              <Form.Label>Minimum Delay (ms):</Form.Label>
+              <Form.Control
+                type="number"
+                value={minDelay}
+                onChange={(e) => setMinDelay(parseInt(e.target.value))}
+                min="0"
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group controlId="maxDelay">
+              <Form.Label>Maximum Delay (ms):</Form.Label>
+              <Form.Control
+                type="number"
+                value={maxDelay}
+                onChange={(e) => setMaxDelay(parseInt(e.target.value))}
+                min="0"
+              />
             </Form.Group>
           </Col>
         </Row>

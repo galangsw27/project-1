@@ -34,7 +34,7 @@ export default async function Page() {
                       <div className="fs-6 fw-bold">{dict.dashboard.sales.stats.stat1}</div>
                     </div>
                     <div className="fs-3 fw-bold">
-                      10
+                     0
                     </div>
                   </div>
                 </CardBody>
@@ -51,7 +51,7 @@ export default async function Page() {
                       <div className="fs-6 fw-bold">{dict.dashboard.sales.stats.stat2}</div>
                     </div>
                     <div className="fs-3 fw-bold">
-                      22,643
+                    0
                     </div>
                   </div>
                 </CardBody>
@@ -68,7 +68,7 @@ export default async function Page() {
                       <div className="fs-6 fw-bold">{dict.dashboard.sales.stats.stat3}</div>
                     </div>
                     <div className="fs-3 fw-bold">
-                      78,623
+                     0
                     </div>
                   </div>
                 </CardBody>
@@ -90,8 +90,8 @@ export default async function Page() {
                         <div className="fw-bold">{dict.dashboard.listing.items.item1.name}</div>
                         <div className="text-muted small">{dict.dashboard.listing.usage_duration}</div>
                       </div>
-                      <ProgressBar className="progress-thin" variant="warning" now={50} />
-                      <div className="fs-5 fw-semibold mt-2">250</div>
+                      <ProgressBar className="progress-thin" variant="warning" now={0} />
+                      <div className="fs-5 fw-semibold mt-2">0</div>
                     </CardBody>
                   </Card>
                 </div>
