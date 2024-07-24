@@ -11,6 +11,7 @@ import { useState } from 'react'
 import InputGroupText from 'react-bootstrap/InputGroupText'
 import useDictionary from '@/locales/dictionary-hook'
 
+
 export default function Register() {
   const router = useRouter()
   const dict = useDictionary()
@@ -65,16 +66,7 @@ export default function Register() {
     <>
       <Alert variant="danger" show={error !== ''} onClose={() => setError('')} dismissible>{error}</Alert>
       <Form onSubmit={register}>
-        <InputGroup className="mb-3">
-          <InputGroupText><FontAwesomeIcon icon={faUser} fixedWidth /></InputGroupText>
-          <FormControl
-            name="username"
-            required
-            disabled={submitting}
-            placeholder={dict.signup.form.username}
-            aria-label="Username"
-          />
-        </InputGroup>
+        
 
         <InputGroup className="mb-3">
           <InputGroupText>

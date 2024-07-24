@@ -107,9 +107,9 @@ export default async function HeaderProfileNav() {
               <ItemWithIcon icon={faUser}>{dict.profile.settings.items.profile}</ItemWithIcon>
             </DropdownItem>
           </Link>
-          <Link href="#" passHref legacyBehavior>
+          <Link href="/register" passHref legacyBehavior>
             <DropdownItem>
-              <ItemWithIcon icon={faGear}>{dict.profile.settings.items.settings}</ItemWithIcon>
+              <ItemWithIcon icon={faGear}>{dict.featured_nav.register}</ItemWithIcon>
             </DropdownItem>
           </Link>
           {/* <Link href="#" passHref legacyBehavior>

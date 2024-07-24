@@ -34,10 +34,10 @@ export default async function Page() {
     const resendData: any = await resendtStat(token, sessionNames);
     const blastData: any = await blastStat(token, sessionNames);
 
-    totalSuccessCount = blastData?.data.reduce((acc: any, item: any) => acc + (item.success_count || 0), 0);
-    totalFailureCount = blastData?.data.reduce((acc: any, item: any) => acc + (item.failure_count || 0), 0);
-    totalResendCount = resendData?.data.reduce((acc: any, item: any) => acc + (item.resend_count || 0), 0);
-    totalFailureResendCount = resendData?.data.reduce((acc: any, item: any) => acc + (item.failure_resend_count || 0), 0);
+    totalSuccessCount = blastData?.data.reduce((acc: any, item: any) => acc + (item.success_count || 0), 0) || 0;
+    totalFailureCount = blastData?.data.reduce((acc: any, item: any) => acc + (item.failure_count || 0), 0) || 0;
+    totalResendCount = resendData?.data.reduce((acc: any, item: any) => acc + (item.resend_count || 0), 0) || 0;
+    totalFailureResendCount = resendData?.data.reduce((acc: any, item: any) => acc + (item.failure_resend_count || 0), 0) || 0;
   }
 
   // Function to chunk the session data
@@ -149,9 +149,16 @@ export default async function Page() {
                         <div className="fw-bold">{sessionName}</div>
                         <div className="ms-auto text-muted medium">{dict.dashboard.listing.usage_duration}</div>
                       </div>
+
+                      <div style={{ paddingRight: 5, color: '#A4791A', fontWeight: 500 }}>Resend</div>
                       <ProgressBar className="progress-thin" variant="warning" now={totalResendCount} />
                       <div className="fs-5 fw-semibold mt-2">
                         {totalResendCount}
+                      </div>
+                      <div style={{ paddingRight: 5, color: '#A4791A', fontWeight: 500 }}>Blast</div>
+                      <ProgressBar className="progress-thin" variant="warning" now={totalSuccessCount} />
+                      <div className="fs-5 fw-semibold mt-2">
+                        {totalSuccessCount}
                       </div>
                     </CardBody>
                   </Card>

@@ -71,7 +71,7 @@ export const blastStat = async (token: string | undefined, nameSession: any ) =>
     const data = await response.json();
     return data
   } catch (error: any) {
-    console.error('Error fetching data:', error);
+    console.error('No data blast on DB:');
   }
 }
 
@@ -88,12 +88,14 @@ export const resendtStat = async (token: string | undefined, nameSession: any ) 
     });
 
     if (!response.ok) {
-      throw new Error(`Error fetching data: ${response.statusText}`);
+      
+      throw new Error(`Error fetching data : ${response.statusText}`);
+    
     }
 
     const data = await response.json();
     return data
   } catch (error: any) {
-    console.error('Error fetching data:', error);
+    console.error('No data resend on DB:');
   }
 }

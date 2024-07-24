@@ -6,9 +6,11 @@ import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { Button } from 'react-bootstrap'
 import { useSidebar } from '@/components/Layout/Dashboard/SidebarProvider'
+import { usePathname } from 'next/navigation'
 
 export default function Sidebar({ children }: { children: React.ReactNode }) {
   const [isNarrow, setIsNarrow] = useState(false)
+  const pathname = usePathname()
 
   const {
     showSidebarState: [isShowSidebar],
@@ -26,7 +28,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
     if (localStorage.getItem('isNarrow')) {
       setIsNarrow(localStorage.getItem('isNarrow') === 'true')
     }
-  }, [setIsNarrow])
+  }, [])
 
   // On first time load only
   useEffect(() => {
@@ -34,6 +36,15 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
       setIsShowSidebarMd(localStorage.getItem('isShowSidebarMd') === 'true')
     }
   }, [setIsShowSidebarMd])
+
+  // Hide sidebar on /register page
+  useEffect(() => {
+    if (pathname === '/register') {
+      setIsShowSidebarMd(false)
+    } else {
+      setIsShowSidebarMd(true)
+    }
+  }, [pathname, setIsShowSidebarMd])
 
   return (
     <div
@@ -52,7 +63,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         >
           <title>Kedan Logo</title>
           <use xlinkHref="/assets/img/logo.svg#full" />
-          </svg>
+        </svg>
         <svg
           className="sidebar-brand-narrow d-none"
           width="46"
@@ -60,7 +71,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
         >
           <title>Kedan Logo</title>
           <use xlinkHref="/assets/img/logo.svg#full" />
-          </svg>
+        </svg>
       </div>
 
       <div className="sidebar-nav flex-fill border-top">
