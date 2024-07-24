@@ -63,11 +63,21 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
       }
 
 
-      // Kirim data ke server-side endpoint Next.js
-      const response = await fetch('/api/resend-all-messages', {
+        // Fungsi untuk menangani timeout
+    const timeout = (ms: number) => new Promise<never>((_, reject) => setTimeout(() => reject(new Error('Request timed out')), ms));
+
+    // AbortController untuk membatalkan request
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    const response = await Promise.race([
+      fetch('/api/resend-all-messages', {
         method: 'POST',
         body: formData,
-      });
+        signal,
+      }),
+      timeout(24 * 60 * 60 * 1000) // 24 jam dalam milidetik
+    ]);
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
