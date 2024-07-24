@@ -1,32 +1,50 @@
-name: Deploy to CapRover
+name: Build and Deploy to CapRover
 
 on:
   push:
     branches:
       - main  # or the branch you want to deploy from
+    tags:
+      - 'v*.*.*'  # deploy on tag pushes (e.g., v1.0.0)
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Login to Docker Hub
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to Docker Hub
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-    - name: Pull Docker image
-      run: docker pull galangsw/mafia07:latest-prod
+    - name: Build Docker image
+      id: build
+      run: |
+        IMAGE_TAG=${{ github.repository }}/mafia07:latest
+        VERSION_TAG=${{ github.repository }}/mafia07:${{ github.ref_name }}
+        docker build -t $IMAGE_TAG -t $VERSION_TAG .
+        echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+        echo "VERSION_TAG=$VERSION_TAG" >> $GITHUB_ENV
+
+    - name: Push Docker images
+      run: |
+        docker push $IMAGE_TAG
+        docker push $VERSION_TAG
 
     - name: Deploy to CapRover
       env:
         CAPROVER_APP_NAME: ${{ secrets.CAPROVER_APP_NAME }}
         CAPROVER_SERVER: ${{ secrets.CAPROVER_SERVER }}
         CAPROVER_PASSWORD: ${{ secrets.CAPROVER_PASSWORD }}
+        IMAGE_TAG: ${{ env.IMAGE_TAG }}
+        VERSION_TAG: ${{ env.VERSION_TAG }}
       run: |
         echo "$CAPROVER_PASSWORD" | caprover login --server $CAPROVER_SERVER --password-stdin
-        caprover deploy --app $CAPROVER_APP_NAME --image galangsw/mafia07:latest-prod
+        caprover deploy --app $CAPROVER_APP_NAME --image $IMAGE_TAG
