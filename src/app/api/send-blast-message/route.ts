@@ -5,42 +5,42 @@ import { authOptions } from '../auth/option';
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function POST(req: NextRequest) {
-  
-
   try {
-    // Mengambil session dari NextAuth
+    // Retrieve session from NextAuth
     const session2 = await getServerSession(authOptions);
     const token = session2?.user?.authToken;
 
     const formData = await req.formData();
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 14400000); // 10 seconds timeout
 
-    const selectedSession: any = formData.get('session');
-    const message: any = formData.get('message');
-    const image: any = formData.get('image');
-    const minDelay: any = formData.get('minDelay');
-    const maxDelay: any = formData.get('maxDelay');
-    const numbers: any = formData.getAll('to[]');
-    
-    console.log(selectedSession, message, image, minDelay, maxDelay, numbers);
+    try {
+      const response = await fetch(`${baseURL}/send-blast-message`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        body: formData,
+        signal: controller.signal,
+      });
 
+      clearTimeout(timeoutId);
 
-    const response = await fetch(`${baseURL}/send-blast-message`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-      body: formData,
-    });
+      if (!response.ok) {
+        throw new Error(`Network response was not ok ${response.statusText}`);
+      }
 
-
-    if (!response.ok) {
-      throw new Error(`Network response was not ok ${response.statusText}`);
+      const data = await response.json();
+      return NextResponse.json(data);
+    } catch (fetchError:any ) {
+      if (fetchError.name === 'AbortError') {
+        console.error('Request timed out');
+        return NextResponse.json({ error: 'Request timed out' }, { status: 408 });
+      }
+      console.error('Fetch error:', fetchError);
+      return NextResponse.json({ error: 'Failed to send blast message' }, { status: 500 });
     }
-
-    const data = await response.json();
-
-    return NextResponse.json(data);
   } catch (error) {
     console.error('Failed to process request:', error);
     return NextResponse.json({ error: 'Failed to process request' }, { status: 500 });

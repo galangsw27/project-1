@@ -1,7 +1,6 @@
 'use client';
 
-import { AwaitedReactNode, JSXElementConstructor, Key, ReactElement, ReactNode, useState } from 'react';
-import axios from 'axios';
+import { Key, ReactNode, useState } from 'react';
 import Papa from 'papaparse';
 import { useRouter } from 'next/navigation';
 import { Form, Button, Container, Col, Row, Modal, Spinner } from 'react-bootstrap';
@@ -21,7 +20,8 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
   const [numbers, setNumbers] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [loadingSend, setLoadingSend] = useState(false);
-  
+  const [showModalLoading, setShowModalLoading] = useState(false);
+
   const [minDelay, setMinDelay] = useState<number>(0);
   const [maxDelay, setMaxDelay] = useState<number>(0);
 
@@ -60,7 +60,8 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
     }
 
     setLoadingSend(true);
-    
+    setShowModalLoading(true);
+
     function generateRandomString(length: number) {
       let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
       let result = '#k3D4n'; // Start with the hashtag
@@ -128,6 +129,8 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
       });
     } finally {
       setLoadingSend(false);
+      setShowModalLoading(false);
+
     }
   };
 
@@ -294,6 +297,17 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
         </Button>
       </Modal.Footer>
     </Modal>
+
+    <Modal show={showModalLoading} centered>
+        <Modal.Body>
+          <div className="d-flex justify-content-center align-items-center">
+            <Spinner animation="border" role="status">
+              <span className="sr-only">Sending...</span>
+            </Spinner>
+            <span className="ml-2">Sedang mengirim semua pesan...</span>
+          </div>
+        </Modal.Body>
+      </Modal>
   </Container>
   );
 };

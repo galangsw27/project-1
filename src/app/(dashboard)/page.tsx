@@ -33,6 +33,7 @@ export default async function Page() {
   if (countSession > 0) {
     const resendData: any = await resendtStat(token, sessionNames);
     const blastData: any = await blastStat(token, sessionNames);
+    console.log(blastData)
 
     totalSuccessCount = blastData?.data.reduce((acc: any, item: any) => acc + (item.success_count || 0), 0) || 0;
     totalFailureCount = blastData?.data.reduce((acc: any, item: any) => acc + (item.failure_count || 0), 0) || 0;
