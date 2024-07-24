@@ -88,20 +88,33 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
         console.log(`${key}: ${value}`);
       }
 
-      const response = await fetch('/api/send-blast-message', {
+
+      // Fungsi untuk menangani timeout
+    const timeout = (ms: number) => new Promise<never>((_, reject) => setTimeout(() => reject(new Error('Request timed out')), ms));
+
+    // AbortController untuk membatalkan request
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    const response = await Promise.race([
+      fetch('/api/send-blast-message', {
         method: 'POST',
         body: formData,
-      });
+        signal,
+      }),
+      timeout(24 * 60 * 60 * 1000) // 24 jam dalam milidetik
+    ]);
 
       const data = await response.json();
-      console.log('ini data resp:', data)
+      // console.log('ini data resp:', data)
 
       const totalFail = data.data.failureCount;
       const totalSuccess = data.data.successCount;
+      const totalSkipped = data.data.skippedCount;
 
       Swal.fire({
         title: 'Broadcast Success!',
-        text: `Message Failed : ${totalFail} - Success : ${totalSuccess}`,
+        text: `Message Failed : ${totalFail} - Success : ${totalSuccess} - Skipped : ${totalSkipped}`,
         icon: 'success',
         confirmButtonText: 'OK'
       });

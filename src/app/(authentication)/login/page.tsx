@@ -3,13 +3,16 @@ import { Col, Row } from 'react-bootstrap'
 import LoginForm from '@/app/(authentication)/login/login'
 import { SearchParams } from '@/types/next'
 import { getDictionary } from '@/locales/dictionary'
+import { authOptions } from '@/app/api/auth/option'
+import { getServerSession } from 'next-auth'
 
 export default async function Page({ searchParams }: { searchParams: SearchParams }) {
   const { callbackUrl } = searchParams
   const dict = await getDictionary()
 
+  
   const getCallbackUrl = () => {
-    if (!callbackUrl) {
+    if (!callbackUrl ) {
       return '/' // Default redirect to home page
     }
 

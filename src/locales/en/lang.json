@@ -22,7 +22,7 @@
   },
   "signup": {
     "title": "Register",
-    "description": "Create your account",
+    "description": "Create account",
     "register_now": "Register Now!",
     "form": {
       "username": "Username",
@@ -181,6 +181,7 @@
   "featured_nav": {
     "dashboard": "Dashboard",
     "users": "Users",
+    "register": "Register",
     "settings": "Settings"
   },
   "notification": {

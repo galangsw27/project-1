@@ -181,6 +181,7 @@
     "featured_nav": {
       "dashboard": "Dasbor",
       "users": "Pengguna",
+      "register": "Daftar",
       "settings": "Pengaturan"
     },
     "notification": {
