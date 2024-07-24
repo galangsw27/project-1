@@ -100,9 +100,10 @@
       "title": "Summary Broadcast Message",
       "stats": {
         "stat1": "Total Session",
-        "stat2": "Broadcast Success",
-        "stat3": "Broadcast Failed",
-        "stat4": "Number Banned"
+        "stat2": "Broadcast Blast Success",
+        "stat3": "Broadcast Blast Failed",
+        "stat4": "Broadcast Resend Success",
+        "stat5": "Broadcast Resend Failed"
       },
       "monday": "Monday",
       "tuesday": "Tuesday",
@@ -131,7 +132,7 @@
       },
       "registered": "Registered",
       "last_login": "Last login",
-      "usage_duration": "Jun 11, 2020 - Jul 10, 2020",
+      "usage_duration": "Target Broadcast ( % )",
       "registered_at": "Jan 1, 2020",
       "items": {
         "item1": {

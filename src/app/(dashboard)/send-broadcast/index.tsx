@@ -84,14 +84,20 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
       formData.append('message', textValue+`\n`+ randomString);
       formData.append('image', imageFile);
 
-      const response = await axios.post(`${baseURL}/send-blast-message`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+
+      const response = await fetch('/api/send-blast-message', {
+        method: 'POST',
+        body: formData,
       });
 
-      const totalFail = response.data.data.failureCount;
-      const totalSuccess = response.data.data.successCount;
+      const data = await response.json();
+      console.log('ini data resp:', data)
+
+      const totalFail = data.data.failureCount;
+      const totalSuccess = data.data.successCount;
 
       Swal.fire({
         title: 'Broadcast Success!',
@@ -131,7 +137,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
   return (
     <Container style={{ maxWidth: '1000px', marginTop: '50px' }}>
     <h1 className="text-center mb-4" style={{ color: '#007bff' }}>Send Broadcast</h1>
-    <Form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-light">
+    <Form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-light dark:bg-secondary">
       <Row className="mb-3">
         <Col md={6}>
           <Form.Group controlId="sessionSelect">

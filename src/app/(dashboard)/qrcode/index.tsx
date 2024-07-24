@@ -109,21 +109,21 @@ export default function Index({ qrData, sessionName }: IndexProps) {
     
     <Fragment>
   <Container className="mt-4">
-    <CardGroup className="bg-light border-0 rounded-3 shadow-sm p-4">
+    <CardGroup className="bg-light dark:bg-secondary border-0 rounded-3 shadow-sm p-4">
       <Row className="w-100">
         <Col md={8}>
         <h2 className="mb-4 text-primary"></h2>
 
           <Card className="border-0">
             
-            <Card.Body className="text-center">
+            <Card.Body className="text-center dark:bg-secondary">
               {qrData.device > 0 ? (
                 <div>
                   <Card.Img
                     variant="top"
                     src={qrData.activeImg}
                     alt="QR code placeholder"
-                    className="img-fluid"
+                    className="img-fluid "
                     style={{ maxWidth: '480px', margin: 'auto' }}
                   />
                   <Card.Text className="mt-3">Connected ({qrData.device})</Card.Text>

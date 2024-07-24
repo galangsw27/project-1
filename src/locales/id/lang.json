@@ -100,9 +100,10 @@
         "title": "Ringkasan Pesan Broadcast",
         "stats": {
           "stat1": "Total Sesi",
-          "stat2": "Broadcast Berhasil",
-          "stat3": "Broadcast Gagal",
-          "stat4": "Jumlah Diblokir"
+          "stat2": "Broadcast Blast Berhasil",
+          "stat3": "Broadcast Blast Gagal",
+          "stat4": "Broadcast Resend Berhasil",
+          "stat5": "Broadcast Resend Gagal"
         },
         "monday": "Senin",
         "tuesday": "Selasa",
@@ -131,7 +132,7 @@
         },
         "registered": "Terdaftar",
         "last_login": "Login terakhir",
-        "usage_duration": "11 Jun 2020 - 10 Jul 2020",
+        "usage_duration": "Target Broadcast ( % )",
         "registered_at": "1 Jan 2020",
         "items": {
           "item1": {

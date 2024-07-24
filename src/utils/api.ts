@@ -1,4 +1,5 @@
 // utils/api.ts
+import { NextResponse } from 'next/server';
 import fetch from 'node-fetch';
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -50,3 +51,49 @@ export const checkQr = async (token: string | undefined, nameSession: string | u
     return null;
   }
 };
+
+
+export const blastStat = async (token: string | undefined, nameSession: any ) => {
+  
+  try {
+    const response = await fetch(`${baseURL}/message-blast-statistics?session=${nameSession}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error fetching data: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data
+  } catch (error: any) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+
+export const resendtStat = async (token: string | undefined, nameSession: any ) => {
+  
+  try {
+    const response = await fetch(`${baseURL}/message-resend-statistics?session=${nameSession}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error fetching data: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data
+  } catch (error: any) {
+    console.error('Error fetching data:', error);
+  }
+}

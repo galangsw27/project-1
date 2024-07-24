@@ -2,7 +2,6 @@ import { NextAuthOptions, User } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { getDictionary } from '@/locales/dictionary'
 
-
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const authOptions: NextAuthOptions = {
@@ -16,8 +15,6 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       return { ...session, user: token.user }
-
-
     },
   },
   providers: [
@@ -59,4 +56,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
+  jwt: {
+    maxAge: 60 * 60, // 1 hour in seconds
+  },
 }

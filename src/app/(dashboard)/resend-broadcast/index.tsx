@@ -58,6 +58,11 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
       formData.append('editedMessage', textValue + `\n` + randomString);
       formData.append('image', imageFile);
 
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+
+
       // Kirim data ke server-side endpoint Next.js
       const response = await fetch('/api/resend-all-messages', {
         method: 'POST',
@@ -70,10 +75,9 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
 
 
       const data = await response.json();
-      console.log(data);
 
-      const totalFail = data.data.failureCount;
-      const totalSuccess = data.data.successCount;
+      const totalFail = data.failureResendCount;
+      const totalSuccess = data.data.resendCount;
 
       Swal.fire({
         title: 'Re-send Success!',
@@ -111,13 +115,13 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
   };
 
   return (
-    <Container className="mt-4">
+    <Container className="mt-4 ">
       <h1 className="mb-4 text-center">Resend Broadcast</h1>
-      <Form onSubmit={handleResend} className="p-4 border rounded shadow-sm bg-light">
-        <Row className="mb-3">
-          <Col md={6}>
+      <Form onSubmit={handleResend} className="p-4 border rounded shadow-sm bg-light dark:bg-secondary">
+        <Row className="mb-3 ">
+          <Col md={6} >
             <Form.Group controlId="sessionSelect">
-              <Form.Label>Select Session:</Form.Label>
+              <Form.Label >Select Session:</Form.Label>
               <Form.Select
                 value={selectedSession}
                 onChange={(e) => setSelectedSession(e.target.value)}

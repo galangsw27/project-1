@@ -3,6 +3,10 @@
     color: $gray-500 !important;
   }
 
+  .dark\:bg-secondary {
+    @extend .bg-secondary;
+  }
+
   .dark\:table-dark {
     @extend .table-dark;
   }
@@ -12,7 +16,13 @@
   }
 }
 
+.bg-success2 {
+  background-color: rgb(46, 145, 112);
+}
 
+.bg-warning2{
+  background-color: brown;
+}
 .underline-input {
   border: none;
   border-bottom: 1px solid #ccc;

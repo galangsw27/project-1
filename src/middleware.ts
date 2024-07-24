@@ -5,7 +5,6 @@ import Negotiator from 'negotiator'
 import { NextMiddlewareResult } from 'next/dist/server/web/types'
 import { getLocales } from '@/locales/dictionary'
 import { defaultLocale } from '@/locales/config'
-import { withNextHeaders } from 'next-headers'
 
 export default async function middleware(request: NextRequest, event: NextFetchEvent) {
   const headers = { 'accept-language': request.headers.get('accept-language') ?? '' }
@@ -32,14 +31,20 @@ export default async function middleware(request: NextRequest, event: NextFetchE
   }
 
   const isStaticAsset = request.nextUrl.pathname.startsWith('/assets/')
-  if (![
-    '/login',
-  ].includes(request.nextUrl.pathname) && !isStaticAsset) {
+  if (!['/login'].includes(request.nextUrl.pathname) && !isStaticAsset) {
+    // Use withAuth to handle authentication and session validation
     const res: NextMiddlewareResult = await withAuth(
-      // Response with local cookies
-      () => response,
+      async (req: NextRequestWithAuth) => {
+        // If the token is expired or invalid, redirect to /login
+        if (!req.nextauth.token) {
+          const loginUrl = new URL('/login', req.url)
+          console.log(req.nextauth.token)
+
+          return NextResponse.redirect(loginUrl.toString())
+        }
+        return response
+      },
       {
-        // Matches the pages config in `[...nextauth]`
         pages: {
           signIn: '/login',
         },
