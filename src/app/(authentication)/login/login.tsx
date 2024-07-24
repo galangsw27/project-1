@@ -62,7 +62,20 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
   }
 
 
-  
+  const [isHover, setIsHover] = useState(false);
+  const handleMouseEnter = () => {
+    setIsHover(true);
+  };
+  const handleMouseLeave = () => {
+      setIsHover(false);
+  };
+
+  const boxStyle = {
+    width: "100%",
+    border: "none",
+    backgroundImage: isHover ? 'none' : 'linear-gradient(to left, #2c3e50, #3498db)',
+    backgroundColor: isHover ? '#2c3e50' : 'transparent',
+ };
 
   return (
     
@@ -86,6 +99,7 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
           <FormControl
             name="username"
             required
+            type='email'
             disabled={submitting}
             placeholder={dict.login.form.username}
             aria-label="Email"
@@ -112,13 +126,18 @@ export default function Login({ callbackUrl }: { callbackUrl: string }) {
         <Row className="align-items-center">
           <Col>
             <Button
-              style={{
-                width: "100%",
-                background: "linear-gradient(to left, #2c3e50, #3498db);", // Ganti dengan warna gradient yang diinginkan
-                border: "none", // Menghilangkan border jika perlu
-                color: "#fff" ,// Warna teks tombol
-                fontWeight: 600
-              }}
+              // style={{
+              //   width: "100%",
+              //   background: "linear-gradient(to left, #2c3e50, #3498db)", // Ganti dengan warna gradient yang diinginkan
+              //   border: "none", // Menghilangkan border jika perlu
+              //   color: "#fff" ,// Warna teks tombol
+              //   fontWeight: 600,
+                
+              // }}
+              style={boxStyle}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+
               className="px-4"
               type="submit"
               disabled={submitting}

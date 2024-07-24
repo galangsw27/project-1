@@ -5,6 +5,7 @@ import HeaderFeaturedNav from '@/components/Layout/Dashboard/Header/HeaderFeatur
 import HeaderNotificationNav from '@/components/Layout/Dashboard/Header/HeaderNotificationNav'
 import HeaderProfileNav from '@/components/Layout/Dashboard/Header/HeaderProfileNav'
 import Breadcrumb from '@/components/Layout/Dashboard/Breadcrumb/Breadcrumb'
+import ChangeTheme from '@/components/Theme/ChangeTheme'
 
 export default function Header() {
   return (
@@ -13,15 +14,15 @@ export default function Header() {
         <HeaderSidebarToggler />
         <Link href="/" className="header-brand d-md-none">
           <svg width="80" height="46">
-            <title>CoreUI Logo</title>
-            <use xlinkHref="/assets/brand/coreui.svg#full" />
+            <title>Kedan Logo</title>
+            <use xlinkHref="/assets/img/logo.svg#full" />
           </svg>
         </Link>
         <div className="header-nav d-none d-md-flex">
           {/* <HeaderFeaturedNav /> */}
         </div>
         <div className="header-nav ms-auto">
-          {/* <HeaderNotificationNav /> */}
+          <HeaderNotificationNav />
         </div>
         <div className="header-nav ms-2">
           <HeaderProfileNav />

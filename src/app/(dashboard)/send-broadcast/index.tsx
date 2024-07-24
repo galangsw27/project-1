@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { AwaitedReactNode, JSXElementConstructor, Key, ReactElement, ReactNode, useState } from 'react';
 import axios from 'axios';
 import Papa from 'papaparse';
 import { useRouter } from 'next/navigation';
@@ -21,6 +21,9 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
   const [numbers, setNumbers] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [loadingSend, setLoadingSend] = useState(false);
+  
+  const [minDelay, setMinDelay] = useState<number>(0);
+  const [maxDelay, setMaxDelay] = useState<number>(0);
 
   const [selectedSession, setSelectedSession] = useState(nameSession.length > 0 ? nameSession[0] : '');
   const router = useRouter();
@@ -74,19 +77,27 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
       const formData = new FormData();
 
       formData.append('session', selectedSession);
+      formData.append('minDelay', minDelay.toString());
+      formData.append('maxDelay', maxDelay.toString());
       phoneNumbers.forEach((number) => formData.append('to[]', number));
       let randomString = generateRandomString(5); 
       formData.append('message', textValue+`\n`+ randomString);
       formData.append('image', imageFile);
 
-      const response = await axios.post(`${baseURL}/send-blast-message`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+
+      const response = await fetch('/api/send-blast-message', {
+        method: 'POST',
+        body: formData,
       });
 
-      const totalFail = response.data.data.failureCount;
-      const totalSuccess = response.data.data.successCount;
+      const data = await response.json();
+      console.log('ini data resp:', data)
+
+      const totalFail = data.data.failureCount;
+      const totalSuccess = data.data.successCount;
 
       Swal.fire({
         title: 'Broadcast Success!',
@@ -124,40 +135,41 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
   };
 
   return (
-    <Container>
-      <h1>Send Broadcast</h1>
-      <Form onSubmit={handleSubmit}>
-        <Row>
-          <Col md={6}>
-            <Form.Group controlId="sessionSelect">
-              <Form.Label>Select Session:</Form.Label>
-              <Form.Select
-                value={selectedSession}
-                onChange={(e) => setSelectedSession(e.target.value)}
-              >
-                {nameSession && nameSession.length > 0 ? (
-                  nameSession.map((session: string, index:  null | undefined) => (
-                    <option key={index} value={session}>{session}</option>
-                  ))
-                ) : (
-                  <option value="">No sessions available</option>
-                )}
-              </Form.Select>
-            </Form.Group>
-          </Col>
-        </Row>
-        <br/>
-        <Row>
-          <Col md={6}>
-            <Form.Group controlId="csvFile">
-              <Form.Label>CSV File:</Form.Label>
-              <Form.Control
-                type="file"
-                accept=".csv"
-                onChange={handleCSVChange}
-              />
-            </Form.Group>
-            <p>Download Template: <a href="/assets/template/template_csv.csv" download>Click Here</a></p>
+    <Container style={{ maxWidth: '1000px', marginTop: '50px' }}>
+    <h1 className="text-center mb-4" style={{ color: '#007bff' }}>Send Broadcast</h1>
+    <Form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-light dark:bg-secondary">
+      <Row className="mb-3">
+        <Col md={6}>
+          <Form.Group controlId="sessionSelect">
+            <Form.Label>Select Session:</Form.Label>
+            <Form.Select
+              value={selectedSession}
+              onChange={(e) => setSelectedSession(e.target.value)}
+            >
+              {nameSession && nameSession.length > 0 ? (
+                nameSession.map((session: string | undefined, index: Key | null | undefined) => (
+                  <option key={index} value={session}>{session}</option>
+                ))
+              ) : (
+                <option value="">No sessions available</option>
+              )}
+            </Form.Select>
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row className="mb-3">
+        <Col md={6}>
+          <Form.Group controlId="csvFile">
+            <Form.Label>CSV File:</Form.Label>
+            <Form.Control
+              type="file"
+              accept=".csv"
+              onChange={handleCSVChange}
+              className="mb-2"
+            />
+            <p className="mt-2">
+              Download Template: <a href="/assets/template/template_csv.csv" download>Click Here</a>
+            </p>
             {numbers.length > 0 && (
               <div className="mt-2">
                 <h5>Preview Numbers:</h5>
@@ -173,68 +185,103 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
                 )}
               </div>
             )}
+          </Form.Group>
+        </Col>
+        <Col md={6}>
+          <Form.Group controlId="imageFile">
+            <Form.Label>Image File:</Form.Label>
+            <Form.Control
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="mb-2"
+            />
+            {imagePreview && (
+              <div className="text-center mt-2">
+                <h5>Image Preview:</h5>
+                <img
+                  src={imagePreview}
+                  alt="Image Preview"
+                  className="img-fluid rounded border"
+                  style={{ maxWidth: '100%', height: 'auto' }}
+                />
+              </div>
+            )}
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row className="mb-3">
+          <Col md={6}>
+            <Form.Group controlId="minDelay">
+              <Form.Label>Minimum Delay (ms):</Form.Label>
+              <Form.Control
+                type="number"
+                value={minDelay}
+                onChange={(e) => setMinDelay(parseInt(e.target.value))}
+                min="0"
+              />
+            </Form.Group>
           </Col>
           <Col md={6}>
-            <Form.Group controlId="imageFile">
-              <Form.Label>Image File:</Form.Label>
+            <Form.Group controlId="maxDelay">
+              <Form.Label>Maximum Delay (ms):</Form.Label>
               <Form.Control
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
+                type="number"
+                value={maxDelay}
+                onChange={(e) => setMaxDelay(parseInt(e.target.value))}
+                min="0"
               />
-              {imagePreview && (
-                <div className="mt-2">
-                  <h5>Image Preview:</h5>
-                  <img src={imagePreview} alt="Image Preview" style={{ width: '200px', height: 'auto' }} />
-                </div>
-              )}
             </Form.Group>
           </Col>
         </Row>
-        <br />
-        <Form.Group controlId="textValue">
-          <Form.Label>Message:</Form.Label>
-          <Form.Control
-            as="textarea"
-            value={textValue}
-            onChange={(e) => setTextValue(e.target.value)}
-            rows={10}
-          />
-        </Form.Group>
-        <br />
-        <Col style={{ paddingBottom: 5}}>
-          <Button variant="primary" type="submit" onClick={handleSubmit} disabled={loadingSend} >
-            {loadingSend ? (
-              <>
-                <Spinner animation="border" size="sm" />
-                <span className="ms-2">Sending...</span>
-              </>
-            ) : (
-              'Send'
-            )}
-          </Button>
-        </Col>
-       
-      </Form>
-
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>All Numbers</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <ul>
-            {numbers.map((number, index) => (
-              <li key={index}>{number}</li>
-            ))}
-          </ul>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </Container>
+      <Form.Group controlId="textValue" className="mb-3">
+        <Form.Label>Message:</Form.Label>
+        <Form.Control
+          as="textarea"
+          value={textValue}
+          onChange={(e) => setTextValue(e.target.value)}
+          rows={10}
+          style={{ resize: 'none' }}
+          className="border-0 shadow-sm"
+        />
+      </Form.Group>
+      <div className="d-flex justify-content-center mb-4">
+        <Button
+          variant="primary"
+          type="submit"
+          disabled={loadingSend}
+          style={{ width: '150px' }}
+        >
+          {loadingSend ? (
+            <>
+              <Spinner animation="border" size="sm" />
+              <span className="ms-2">Sending...</span>
+            </>
+          ) : (
+            'Send'
+          )}
+        </Button>
+      </div>
+    </Form>
+  
+    <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal.Header closeButton>
+        <Modal.Title>All Numbers</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <ul>
+          {numbers.map((number, index) => (
+            <li key={index}>{number}</li>
+          ))}
+        </ul>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={() => setShowModal(false)}>
+          Close
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  </Container>
   );
 };
 

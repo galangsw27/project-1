@@ -1,15 +1,29 @@
 // app/api/create-session/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { JSDOM } from 'jsdom';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/option';
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function POST(req: NextRequest) {
   const { nameSession } = await req.json(); // Mengambil data dari body permintaan
 
+  const resp = await getServerSession(authOptions);
+  const token = resp?.user.authToken
+  
   try {
-    const response = await fetch(`${baseURL}/start-session?session=${nameSession}&scan=true`);
+    const response = await fetch(`${baseURL}/start-session?session=${nameSession}&scan=true`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    // console.log('ini resp', response)
     if (!response.ok) {
+      // console.log('ini resp', response)
+
       throw new Error(`Network response was not ok ${response.statusText}`);
     }
 
