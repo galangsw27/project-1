@@ -12,10 +12,15 @@ const path = require('path')
 const nextConfig = {
   // output: "export",
   reactStrictMode: true,
+  serverRuntimeConfig: {
+    // Increase timeout settings for SSR requests
+    fetchTimeout: 864000, // 10 seconds
+  },
   swcMinify: true,
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   }
+  
 }
 
 module.exports = nextConfig
