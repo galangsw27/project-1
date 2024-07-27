@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import InputGroupText from 'react-bootstrap/InputGroupText'
 import useDictionary from '@/locales/dictionary-hook'
+import Swal from 'sweetalert2'
 
 
 export default function Register() {
@@ -19,7 +20,6 @@ export default function Register() {
   const [error, setError] = useState('')
 
   const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
-
 
   const register = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -33,7 +33,7 @@ export default function Register() {
     }
 
     try {
-      const res = await fetch(`${baseURL}/register`, {
+      const res = await fetch(`/api/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,8 +51,16 @@ export default function Register() {
         return
       }
 
-      // Assuming the API does not return a URL for redirection, but just a success message
-      router.push('/login')
+      // Show SweetAlert notification on successful registration
+      Swal.fire({
+        title: 'Registration Successful!',
+        text: 'You have registered successfully.',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        router.push('/') 
+      })
+
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message)
@@ -66,8 +74,6 @@ export default function Register() {
     <>
       <Alert variant="danger" show={error !== ''} onClose={() => setError('')} dismissible>{error}</Alert>
       <Form onSubmit={register}>
-        
-
         <InputGroup className="mb-3">
           <InputGroupText>
             <FontAwesomeIcon icon={faEnvelope} fixedWidth />
