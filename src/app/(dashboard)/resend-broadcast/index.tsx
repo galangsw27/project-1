@@ -86,13 +86,8 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
 
       const data = await response.json();
       // console.log('resp', data)
-
-      const totalFail = data.data.failureResendCount;
-      const totalSuccess = data.data.resendCount;
-
       Swal.fire({
         title: 'Re-send Success!',
-        text: `Message Failed : ${totalFail} - Success : ${totalSuccess}`,
         icon: 'success',
         confirmButtonText: 'OK'
       });

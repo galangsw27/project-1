@@ -109,13 +109,8 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
       const data = await response.json();
       // console.log('ini data resp:', data)
 
-      const totalFail = data.data.failureCount;
-      const totalSuccess = data.data.successCount;
-      const totalSkipped = data.data.skippedCount;
-
       Swal.fire({
         title: 'Broadcast Success!',
-        text: `Message Failed : ${totalFail} - Success : ${totalSuccess} - Skipped : ${totalSkipped}`,
         icon: 'success',
         confirmButtonText: 'OK'
       });
