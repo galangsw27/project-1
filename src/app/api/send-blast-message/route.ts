@@ -31,8 +31,6 @@ export async function POST(req: NextRequest) {
 
       clearTimeout(timeoutId);
 
-      
-
       if (!response.ok) {
         throw new Error(`Network response was not ok ${response.statusText}`);
       }

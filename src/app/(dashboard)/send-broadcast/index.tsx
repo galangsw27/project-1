@@ -110,7 +110,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
       // console.log('ini data resp:', data)
 
       Swal.fire({
-        title: 'Broadcast Success!',
+        title: 'Broadcast Send!',
         icon: 'success',
         confirmButtonText: 'OK'
       });
@@ -224,7 +224,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
       <Row className="mb-3">
           <Col md={6}>
             <Form.Group controlId="minDelay">
-              <Form.Label>Minimum Delay (ms):</Form.Label>
+              <Form.Label>Minimum Delay (minute):</Form.Label>
               <Form.Control
                 type="number"
                 value={minDelay}
@@ -235,7 +235,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
           </Col>
           <Col md={6}>
             <Form.Group controlId="maxDelay">
-              <Form.Label>Maximum Delay (ms):</Form.Label>
+              <Form.Label>Maximum Delay (minute):</Form.Label>
               <Form.Control
                 type="number"
                 value={maxDelay}
