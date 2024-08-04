@@ -287,8 +287,6 @@ export default function Index({ qrData, sessionName, sessionId }: IndexProps) {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Select User</Form.Label>
-              <Form.Group>
               <Form.Label>Select a user</Form.Label>
               {isLoading ? (
                 <Spinner animation="border" /> // Display spinner while loading
@@ -306,7 +304,6 @@ export default function Index({ qrData, sessionName, sessionId }: IndexProps) {
                   ))}
                 </Form.Control>
               )}
-            </Form.Group>
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
