@@ -31,9 +31,11 @@ const Index: React.FC<IndexProps> = ({ sessions }) => {
 
   return (
     <Card>
-      <Card.Header>Blast History</Card.Header>
+      <Card.Header>
+        <h5>Blast History</h5>
+      </Card.Header>
       <CardBody>
-        <Table striped bordered hover>
+        <Table striped bordered hover variant="dark">
           <thead>
             <tr>
               <th>#</th>
@@ -50,18 +52,19 @@ const Index: React.FC<IndexProps> = ({ sessions }) => {
                 <td>
                   <span 
                     style={{
-                      color: session ? 'white' : 'red',
-                      borderRadius: '5px',
-                      padding: '2px 6px',
-                      backgroundColor: session  ? 'green' : '#f8d7da',
-                      display: 'inline-block'
+                      color: 'white',
+                      borderRadius: '12px',
+                      padding: '4px 8px',
+                      backgroundColor: session.success_count > 0 ? 'green' : 'red',
+                      display: 'inline-block',
+                      fontWeight: 'bold'
                     }}
                   >
-                    {session ? 'Success' : 'Failure'}
+                    {session.success_count > 0 ? 'Success' : 'Failure'}
                   </span>
                 </td>
                 <td>
-                  <Button variant="link" style={{ textDecoration: 'none' }} onClick={() => handleDetailClick(session)}>
+                  <Button variant="outline-light" onClick={() => handleDetailClick(session)}>
                     View Details
                   </Button>
                 </td>
@@ -71,11 +74,12 @@ const Index: React.FC<IndexProps> = ({ sessions }) => {
         </Table>
 
         {selectedSession && (
-          <Modal show={showModal} onHide={handleCloseModal}>
+          <Modal show={showModal} onHide={handleCloseModal} centered>
             <ModalHeader closeButton>
               <Modal.Title>Session Details</Modal.Title>
             </ModalHeader>
             <ModalBody>
+              <p><strong>Session Name:</strong> {selectedSession.session_name}</p>
               <p><strong>Success Count:</strong> {selectedSession.success_count}</p>
               <p><strong>Failure Count:</strong> {selectedSession.failure_count}</p>
               <p><strong>Skipped Count:</strong> {selectedSession.skipped_count}</p>
