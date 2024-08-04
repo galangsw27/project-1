@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   const token = session?.user.authToken;
 
-  const { email, password } = await req.json();
+  const { email, password, role } = await req.json();
 
   try {
     const response = await fetch(`${baseURL}/register`, {
@@ -20,7 +20,8 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         email: email,
-        password: password
+        password: password,
+        role: role
       })
     });
 

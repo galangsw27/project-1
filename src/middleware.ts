@@ -54,6 +54,8 @@ export default async function middleware(request: NextRequest, event: NextFetchE
           const loginUrl = new URL('/login', req.url);
           return NextResponse.redirect(loginUrl.toString());
         }
+
+
         return response;
       },
       {

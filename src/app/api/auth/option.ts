@@ -1,6 +1,6 @@
-import { NextAuthOptions, User } from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
-import { getDictionary } from '@/locales/dictionary'
+import { NextAuthOptions, User } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { getDictionary } from '@/locales/dictionary';
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -8,13 +8,12 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ user, token }) {
       if (user) {
-        return { ...token, user: { ...user as User } }
+        return { ...token, user: { ...user as User } };
       }
-
-      return token
+      return token;
     },
     async session({ session, token }) {
-      return { ...session, user: token.user }
+      return { ...session, user: token.user };
     },
   },
   providers: [
@@ -25,9 +24,10 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials) {
-          return null
+          return null;
         }
-        const { email, password } = credentials
+        const { email, password } = credentials;
+
         // Replace with real authentication via API
         const response = await fetch(`${baseURL}/login`, {
           method: 'POST',
@@ -35,23 +35,36 @@ export const authOptions: NextAuthOptions = {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ email, password }),
-        })
+        });
 
-        const data = await response.json()
-            
-        const dict = await getDictionary()
+        const data = await response.json();
+        
+        const dict = await getDictionary();
         if (!response.ok || !data.token) {
-          throw new Error(dict.login.message.auth_failed)
+          throw new Error(dict.login.message.auth_failed);
         }
 
-        return {
-          id: 1,
-          name: 'Name',
-          username: 'Username',
-          email: email,
-          avatar: '/assets/img/avatars/8.jpg',
-          authToken: data.token
+        const meResponse = await fetch(`${baseURL}/me`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${data.token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!meResponse.ok) {
+          throw new Error(dict.login.message.auth_failed);
         }
+
+        const dataMe = await meResponse.json();
+     
+        return {
+          id: dataMe?.user?.id, // Assuming 'id' exists in the response
+          email: email,
+          role: dataMe?.user?.role,
+          avatar: '/assets/img/avatars/8.jpg',
+          authToken: data.token,
+        };
       },
     }),
   ],
@@ -59,4 +72,4 @@ export const authOptions: NextAuthOptions = {
   jwt: {
     maxAge: 60 * 60, // 1 hour in seconds
   },
-}
+};

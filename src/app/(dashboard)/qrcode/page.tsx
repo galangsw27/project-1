@@ -14,6 +14,8 @@ export default async function Page() {
   const getSession: any = await checkSession(token);
   console.log(getSession);
   const sessionNames = getSession ? getSession.data.map((session: { session_name: string }) => session.session_name) : [];
+  
+  const sessionId= getSession ? getSession.data.map((session: { id: number }) => session.id) : [];
   const countSession = sessionNames.length;
 
   // Ambil data QR
@@ -27,6 +29,7 @@ export default async function Page() {
       number: '',
       device: 0,
       isConnected: false
-    }} sessionName={sessionNames} />
+    }} sessionName={sessionNames}
+    sessionId= {sessionId} />
   );
 }

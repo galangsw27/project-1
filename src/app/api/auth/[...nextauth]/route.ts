@@ -4,8 +4,7 @@ import { authOptions } from '@/app/api/auth/option'
 declare module 'next-auth' {
   interface User {
     id: number;
-    username: string;
-    name: string;
+    role: string;
     email: string;
     avatar: string;
     authToken: string;

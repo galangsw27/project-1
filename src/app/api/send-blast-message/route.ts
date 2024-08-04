@@ -12,6 +12,8 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData();
 
+    console.log(formData)
+
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 14400000); // 10 seconds timeout
 
@@ -25,7 +27,11 @@ export async function POST(req: NextRequest) {
         signal: controller.signal,
       });
 
+      console.log(response.json())
+
       clearTimeout(timeoutId);
+
+      
 
       if (!response.ok) {
         throw new Error(`Network response was not ok ${response.statusText}`);

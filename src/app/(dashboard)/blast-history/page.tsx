@@ -1,5 +1,5 @@
 import React from 'react'
-import Index from '@/app/(dashboard)/manage-group/index'
+import Index from '@/app/(dashboard)/blast-history/index'
 
 export default async function Page() {
 

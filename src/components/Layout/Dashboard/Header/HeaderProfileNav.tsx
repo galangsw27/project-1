@@ -1,5 +1,5 @@
 import {
-    Badge,
+  Badge,
   Dropdown,
   DropdownDivider,
   DropdownHeader,
@@ -48,6 +48,8 @@ const ItemWithIcon = (props: ItemWithIconProps) => {
 export default async function HeaderProfileNav() {
   const session = await getServerSession(authOptions)
   const dict = await getDictionary()
+  const userRole = session?.user?.role; 
+  // Assuming session.user.role contains the role information
 
   return (
     <Nav>
@@ -107,11 +109,14 @@ export default async function HeaderProfileNav() {
               <ItemWithIcon icon={faUser}>{dict.profile.settings.items.profile}</ItemWithIcon>
             </DropdownItem>
           </Link>
-          <Link href="/register" passHref legacyBehavior>
-            <DropdownItem>
-              <ItemWithIcon icon={faGear}>{dict.featured_nav.register}</ItemWithIcon>
-            </DropdownItem>
-          </Link>
+
+          {userRole === 'Admin' && (
+            <Link href="/register" passHref legacyBehavior>
+              <DropdownItem>
+                <ItemWithIcon icon={faGear}>{dict.featured_nav.register}</ItemWithIcon>
+              </DropdownItem>
+            </Link>
+          )}
           {/* <Link href="#" passHref legacyBehavior>
             <DropdownItem>
               <ItemWithIcon icon={faCreditCard}>
