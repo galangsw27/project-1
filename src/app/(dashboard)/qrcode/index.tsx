@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, Fragment } from 'react';
-import { Button, Card, CardGroup, Row, Col, Modal, ListGroup, Form, Container } from 'react-bootstrap';
+import { Button, Card, CardGroup, Row, Col, Modal, ListGroup, Form, Container, Spinner } from 'react-bootstrap';
 import router from 'next/router';
 
 interface IndexProps {
@@ -47,7 +47,7 @@ export default function Index({ qrData, sessionName, sessionId }: IndexProps) {
   const handleDeleteSession = async () => {
     const body = JSON.stringify({ session: selectedSession });
     try {
-      const response = await fetch(`${baseURL}/api/delete-session`, {
+      const response = await fetch(`/api/delete-session`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ export default function Index({ qrData, sessionName, sessionId }: IndexProps) {
     setIsLoading(true);
     try {
       const body = JSON.stringify({ nameSession: newSessionName });
-      const response = await fetch(`${baseURL}/api/create-session`, {
+      const response = await fetch(`/api/create-session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +106,8 @@ export default function Index({ qrData, sessionName, sessionId }: IndexProps) {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch(`${baseURL}/api/get-all-users`);
+      setIsLoading(true);
+      const response = await fetch(`/api/get-all-users`);
       if (response.ok) {
         const data = await response.json();
         setUsers(data.data); // Assuming the API response contains a `users` array
@@ -115,13 +116,15 @@ export default function Index({ qrData, sessionName, sessionId }: IndexProps) {
       }
     } catch (error) {
       alert('Failed to fetch users');
+    } finally{
+      setIsLoading(false);
     }
   };
 
   const handleAssignSession = async () => {
     try {
       const body = JSON.stringify({ sessionName: selectedSession, userId: selectedUser });
-      const response = await fetch(`${baseURL}/api/assign-session`, {
+      const response = await fetch(`/api/assign-session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -285,16 +288,25 @@ export default function Index({ qrData, sessionName, sessionId }: IndexProps) {
 
             <Form.Group className="mb-3">
               <Form.Label>Select User</Form.Label>
-              <Form.Control
-                as="select"
-                value={selectedUser}
-                onChange={(e) => setSelectedUser(e.target.value)}
-              >
-                <option value="">Select a user</option>
-                {users.map((user) => (
-                  <option key={user.id} value={user.id}>{user.email}</option>
-                ))}
-              </Form.Control>
+              <Form.Group>
+              <Form.Label>Select a user</Form.Label>
+              {isLoading ? (
+                <Spinner animation="border" /> // Display spinner while loading
+              ) : (
+                <Form.Control
+                  as="select"
+                  value={selectedUser}
+                  onChange={(e) => setSelectedUser(e.target.value)}
+                >
+                  <option value="">Select a user</option>
+                  {users.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.email}
+                    </option>
+                  ))}
+                </Form.Control>
+              )}
+            </Form.Group>
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
