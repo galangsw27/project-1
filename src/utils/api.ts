@@ -1,4 +1,6 @@
 // utils/api.ts
+import { authOptions } from '@/app/api/auth/option';
+import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import fetch from 'node-fetch';
 
@@ -23,6 +25,7 @@ export const checkSession = async (token: string | undefined) => {
 
 export const checkQr = async (token: string | undefined, nameSession: string | undefined, countSession: number) => {
   try {
+    const session = await getServerSession(authOptions);
     const response = await fetch(`${baseURL}/session-status?session=${nameSession}`, {
       method: 'GET',
       headers: {
@@ -38,11 +41,13 @@ export const checkQr = async (token: string | undefined, nameSession: string | u
     const data: any = await response.json();
     const isConnected = data?.status === true;
 
+
+
     return {
       activeImg: '/assets/img/active.png',
       waitImg: '/assets/img/wait.png',
-      nama: '',
-      number: '',
+      nama: session?.user.email,
+      role: session?.user.role,
       isConnected,
       device: countSession,
     };

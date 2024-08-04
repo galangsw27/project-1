@@ -27,6 +27,7 @@
     "form": {
       "username": "Username",
       "email": "Email",
+      "role": "Role",
       "password": "Password",
       "confirm_password": "Confirm Password",
       "submit": "Create Account"
@@ -276,7 +277,7 @@
       "dashboard": "Dashboard",
       "send": "Send Broadcast",
       "qrcode": "QR Register",
-      "groups": "Manage Groups",
+      "history": "Blast History",
       "resend": "Resend Broadcast",
       "main_fitur": "Fitur Utama",
       "colors": "Colors",

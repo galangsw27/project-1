@@ -27,6 +27,7 @@
       "form": {
         "username": "Nama Pengguna",
         "email": "Email",
+        "role": "Role",
         "password": "Kata Sandi",
         "confirm_password": "Konfirmasi Kata Sandi",
         "submit": "Buat Akun"
@@ -276,7 +277,7 @@
         "dashboard": "Dasbor",
         "send": "Kirim Broadcast",
         "qrcode": "Registrasi QR",
-        "groups": "Kelola Grup",
+        "history": "Riwayat Blast",
         "resend": "Kirim Ulang Broadcast",
         "main_fitur": "Fitur Utama",
         "colors": "Warna",

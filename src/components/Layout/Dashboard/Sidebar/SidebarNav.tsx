@@ -1,5 +1,6 @@
 import {
-  faAddressCard, faBell, faFileLines, faMessage, faStar,
+  faAddressCard, faBell, faCircleCheck, faFileLines, faMessage, faStar,
+  faTimesCircle,
 } from '@fortawesome/free-regular-svg-icons'
 import {
   faBug,
@@ -15,12 +16,15 @@ import {
   faPuzzlePiece,
   faQrcode,
   faRightToBracket,
+  faTimes,
 } from '@fortawesome/free-solid-svg-icons'
 import React, { PropsWithChildren } from 'react'
 import { Badge } from 'react-bootstrap'
 import SidebarNavGroup from '@/components/Layout/Dashboard/Sidebar/SidebarNavGroup'
 import SidebarNavItem from '@/components/Layout/Dashboard/Sidebar/SidebarNavItem'
 import { getDictionary } from '@/locales/dictionary'
+import { authOptions } from '@/app/api/auth/option'
+import { getServerSession } from 'next-auth'
 
 const SidebarNavTitle = (props: PropsWithChildren) => {
   const { children } = props
@@ -32,6 +36,8 @@ const SidebarNavTitle = (props: PropsWithChildren) => {
 
 export default async function SidebarNav() {
   const dict = await getDictionary()
+  const session = await getServerSession(authOptions)
+  const userRole = session?.user?.role; 
   return (
     <ul className="list-unstyled">
       <SidebarNavTitle>{dict.sidebar.items.dashboard}</SidebarNavTitle>
@@ -46,20 +52,20 @@ export default async function SidebarNav() {
         {dict.sidebar.items.send}
         <small className="ms-auto" />
       </SidebarNavItem>
+      {userRole === 'Admin' && (
       <SidebarNavItem icon={faQrcode} href="/qrcode">
         {dict.sidebar.items.qrcode}
         <small className="ms-auto" />
       </SidebarNavItem>
+      )}
       <SidebarNavItem icon={faGears} href="/resend-broadcast">
         {dict.sidebar.items.resend}
         <small className="ms-auto" />
       </SidebarNavItem>
-      
-
-      {/* <SidebarNavItem icon={faGears} href="/manage-group">
-        {dict.sidebar.items.groups}
+      <SidebarNavItem icon={faCircleCheck} href="/blast-history">
+        {dict.sidebar.items.history}
         <small className="ms-auto" />
-      </SidebarNavItem> */}
+      </SidebarNavItem>
       {/* <SidebarNavItem icon={faCode} href="/pokemons">
         {dict.sidebar.items.sample}
         <small className="ms-auto"><Badge bg="danger" className="ms-auto">DEMO</Badge></small>

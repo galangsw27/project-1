@@ -80,8 +80,12 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
       formData.append('session', selectedSession);
       formData.append('minDelay', minDelay.toString());
       formData.append('maxDelay', maxDelay.toString());
-      phoneNumbers.forEach((number) => formData.append('to[]', number));
-      let randomString = generateRandomString(5); 
+      phoneNumbers.forEach((number) => {
+        if (number.trim() !== '') {
+            formData.append('to[]', number);
+        }
+    });
+          let randomString = generateRandomString(5); 
       formData.append('message', textValue+`\n`+ randomString);
       formData.append('image', imageFile);
 
@@ -107,13 +111,22 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
     ]);
 
       const data = await response.json();
-      // console.log('ini data resp:', data)
 
-      Swal.fire({
-        title: 'Broadcast Success!',
-        icon: 'success',
-        confirmButtonText: 'OK'
-      });
+
+      if (data.status) {
+        Swal.fire({
+            title: 'Pesan sedang dikirim. Harap pantau WhatsApp Anda!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    } else {
+        Swal.fire({
+            title: 'Pesan sedang dikirim. Pantau WhatsApp Anda hingga semua nomor berhasil dikirim.',
+            icon: 'info',
+            confirmButtonText: 'OK'
+        });
+    }
+    
     } catch (error) {
       console.error('Error uploading files:', error);
       Swal.fire({
@@ -224,7 +237,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
       <Row className="mb-3">
           <Col md={6}>
             <Form.Group controlId="minDelay">
-              <Form.Label>Minimum Delay (ms):</Form.Label>
+              <Form.Label>Minimum Delay (minute):</Form.Label>
               <Form.Control
                 type="number"
                 value={minDelay}
@@ -235,7 +248,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
           </Col>
           <Col md={6}>
             <Form.Group controlId="maxDelay">
-              <Form.Label>Maximum Delay (ms):</Form.Label>
+              <Form.Label>Maximum Delay (minute):</Form.Label>
               <Form.Control
                 type="number"
                 value={maxDelay}

@@ -5,7 +5,7 @@ import {
 } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faUser } from '@fortawesome/free-regular-svg-icons'
-import { faLock } from '@fortawesome/free-solid-svg-icons'
+import { faLock, faUserAlt } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import InputGroupText from 'react-bootstrap/InputGroupText'
@@ -41,6 +41,8 @@ export default function Register() {
         body: JSON.stringify({
           email: formData.get('email'),
           password: formData.get('password'),
+          role: formData.get('role'),
+
         }),
       })
 
@@ -58,7 +60,7 @@ export default function Register() {
         icon: 'success',
         confirmButtonText: 'OK'
       }).then(() => {
-        router.push('/') 
+        router.push('/')
       })
 
     } catch (err) {
@@ -110,6 +112,22 @@ export default function Register() {
             placeholder={dict.signup.form.confirm_password}
             aria-label="Confirm password"
           />
+        </InputGroup>
+
+        <InputGroup className="mb-3">
+          <InputGroupText>
+            <FontAwesomeIcon icon={faUserAlt} fixedWidth />
+          </InputGroupText>
+          <Form.Select
+            name="role"
+            required
+            disabled={submitting}
+            aria-label="role"
+          >
+            <option value="" >Select Role</option>
+            <option value="Admin">Admin</option>
+            <option value="User">User</option>
+          </Form.Select>
         </InputGroup>
 
         <Button type="submit" className="d-block w-100" disabled={submitting} variant="success">
