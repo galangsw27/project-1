@@ -111,13 +111,22 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
     ]);
 
       const data = await response.json();
-      // console.log('ini data resp:', data)
 
-      Swal.fire({
-        title: 'Broadcast Send!',
-        icon: 'success',
-        confirmButtonText: 'OK'
-      });
+
+      if (data.status) {
+        Swal.fire({
+            title: 'Pesan sedang dikirim. Harap pantau WhatsApp Anda!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    } else {
+        Swal.fire({
+            title: 'Pesan sedang dikirim. Pantau WhatsApp Anda hingga semua nomor berhasil dikirim.',
+            icon: 'info',
+            confirmButtonText: 'OK'
+        });
+    }
+    
     } catch (error) {
       console.error('Error uploading files:', error);
       Swal.fire({

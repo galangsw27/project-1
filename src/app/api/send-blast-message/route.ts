@@ -12,7 +12,6 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData();
 
-    console.log(formData)
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 14400000); // 10 seconds timeout
