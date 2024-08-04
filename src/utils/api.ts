@@ -35,12 +35,15 @@ export const checkQr = async (token: string | undefined, nameSession: string | u
     });
 
     if (!response.ok) {
-      throw new Error(`Network response was not ok ${response.statusText}`);
+      throw new Error(`${response.statusText}`);
     }
 
     const data: any = await response.json();
     const isConnected = data?.status === true;
 
+    if (!data){
+      console.log('Need Create Session')
+    }
 
 
     return {
@@ -52,7 +55,7 @@ export const checkQr = async (token: string | undefined, nameSession: string | u
       device: countSession,
     };
   } catch (error) {
-    console.error('Error checking QR:', error);
+    console.error('Error checking QR:');
     return null;
   }
 };
