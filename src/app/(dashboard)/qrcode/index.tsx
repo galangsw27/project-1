@@ -1,17 +1,17 @@
-'use client'
+'use client';
 
-import router from 'next/router';
 import React, { useState, useEffect, Fragment } from 'react';
 import { Button, Card, CardGroup, Row, Col, Modal, ListGroup, Form, Container } from 'react-bootstrap';
+import router from 'next/router';
 
 interface IndexProps {
-  qrData:  {
-    activeImg: string ;
-    waitImg: string ;
-    nama: string;
-    number: string;
-    device: string | any;
-    isConnected: boolean
+  qrData: {
+    activeImg: string;
+    waitImg: string;
+    nama?: string;
+    role?: string;
+    device: number; // Changed to number
+    isConnected: boolean;
   };
   sessionName: string[];
   sessionId: number[];
@@ -27,12 +27,12 @@ export default function Index({ qrData, sessionName, sessionId }: IndexProps) {
   const [showModal, setShowModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showAssignModal, setShowAssignModal] = useState(false);
-  const [selectedSession, setSelectedSession] = useState('');
-  const [newSessionName, setNewSessionName] = useState('');
+  const [selectedSession, setSelectedSession] = useState<string>('');
+  const [newSessionName, setNewSessionName] = useState<string>('');
   const [sessionImage, setSessionImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUser, setSelectedUser] = useState<string>('');
 
   const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -44,63 +44,60 @@ export default function Index({ qrData, sessionName, sessionId }: IndexProps) {
     return () => clearInterval(interval);
   }, []);
 
-  const handleDeleteSession = async (session: string) => {
+  const handleDeleteSession = async () => {
     const body = JSON.stringify({ session: selectedSession });
-  
-    const response = await fetch(`/api/delete-session`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: body,
-    });
-  
-  
-    if (response.ok) {
-      alert(`Session ${session} deleted successfully.`);
-      window.location.reload(); // Refresh the page upon successful deletion
-    } else {
-      alert(`Failed to delete session ${session}.`);
+    try {
+      const response = await fetch(`${baseURL}/api/delete-session`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body,
+      });
+
+      if (response.ok) {
+        // Ideally, fetch session data again to update the UI without reloading
+        alert(`Session ${selectedSession} deleted successfully.`);
+        setSelectedSession('');
+      } else {
+        const errorText = await response.text();
+        alert(`Failed to delete session ${selectedSession}: ${errorText}`);
+      }
+    } catch (error) {
+      alert(`Failed to delete session ${selectedSession}: ${error}`);
+    } finally {
+      setShowModal(false);
     }
-  
-    setShowModal(false);
   };
-  
+
   const handleCreateSession = async () => {
     setIsLoading(true);
     try {
       const body = JSON.stringify({ nameSession: newSessionName });
-  
-      const response = await fetch('/api/create-session', {
+      const response = await fetch(`${baseURL}/api/create-session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: body,
+        body,
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         setSessionImage(data.qrImage);
       } else {
         const errorText = await response.text();
         let errorMessage = 'Failed to create session: Unknown error';
-  
         try {
           const errorData = JSON.parse(errorText);
           errorMessage = `Failed to create session: ${errorData.message || 'Unknown error'}`;
         } catch (jsonError) {
           errorMessage = `Failed to create session: ${errorText}`;
         }
-  
         alert(errorMessage);
       }
     } catch (error) {
-      if (error instanceof Error) {
-        alert(`Failed to create session: ${error.message}`);
-      } else {
-        alert('Failed to create session: Unknown error');
-      }
+      alert(`Failed to create session: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsLoading(false);
       setNewSessionName('');
@@ -109,7 +106,7 @@ export default function Index({ qrData, sessionName, sessionId }: IndexProps) {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('/api/get-all-users');
+      const response = await fetch(`${baseURL}/api/get-all-users`);
       if (response.ok) {
         const data = await response.json();
         setUsers(data.data); // Assuming the API response contains a `users` array
@@ -124,14 +121,12 @@ export default function Index({ qrData, sessionName, sessionId }: IndexProps) {
   const handleAssignSession = async () => {
     try {
       const body = JSON.stringify({ sessionName: selectedSession, userId: selectedUser });
-
-      console.log(body)
-      const response = await fetch('/api/assign-session', {
+      const response = await fetch(`${baseURL}/api/assign-session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: body,
+        body,
       });
 
       if (response.ok) {
@@ -140,13 +135,13 @@ export default function Index({ qrData, sessionName, sessionId }: IndexProps) {
         alert('Failed to assign session');
       }
     } catch (error) {
-      alert('Failed to assign session');
+      alert(`Failed to assign session: ${error}`);
     } finally {
       setSelectedUser('');
       setShowAssignModal(false);
     }
   };
-  
+
   return (
     <Fragment>
       <Container className="mt-4">
@@ -162,7 +157,7 @@ export default function Index({ qrData, sessionName, sessionId }: IndexProps) {
                         variant="top"
                         src={qrData.activeImg}
                         alt="QR code placeholder"
-                        className="img-fluid "
+                        className="img-fluid"
                         style={{ maxWidth: '480px', margin: 'auto' }}
                       />
                       <Card.Text className="mt-3">Connected ({qrData.device})</Card.Text>
@@ -186,10 +181,10 @@ export default function Index({ qrData, sessionName, sessionId }: IndexProps) {
               <h2 className="mb-4 text-primary">Account</h2>
               <Card className="w-100 mb-3 shadow-sm">
                 <Card.Body>
-                  <Card.Text><strong>Name:</strong> {qrData.nama}</Card.Text>
-                  <Card.Text><strong>Number:</strong> {qrData.number}</Card.Text>
+                  <Card.Text><strong>Name:</strong> {qrData.nama || 'N/A'}</Card.Text>
+                  <Card.Text><strong>Role:</strong> {qrData.role || 'N/A'}</Card.Text>
                   <Card.Text>
-                    <strong>Device:</strong> {qrData.device === '0' ? 'Need to create session' : `Connected (${qrData.device})`}
+                    <strong>Device:</strong> {qrData.device === 0 ? 'Need to create session' : `Connected (${qrData.device})`}
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -262,57 +257,55 @@ export default function Index({ qrData, sessionName, sessionId }: IndexProps) {
             <Button variant="secondary" onClick={() => setShowModal(false)}>
               Close
             </Button>
-            <Button variant="danger" onClick={() => handleDeleteSession(selectedSession)} disabled={!selectedSession}>
+            <Button variant="danger" onClick={handleDeleteSession} disabled={!selectedSession}>
               Confirm Delete
             </Button>
           </Modal.Footer>
         </Modal>
 
         {/* Modal for assigning session */}
-       {/* Modal for assigning session */}
-<Modal show={showAssignModal} onHide={() => setShowAssignModal(false)} centered>
-  <Modal.Header closeButton>
-    <Modal.Title>Assign Session to User</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <Form.Group className="mb-3">
-      <Form.Label>Select Session</Form.Label>
-      {sessionName.map((session, index) => (
-        <Form.Check 
-          type="checkbox" 
-          key={index} 
-          label={session} 
-          value={session} 
-          checked={selectedSession === session}
-          onChange={() => setSelectedSession(session)} 
-        />
-      ))}
-    </Form.Group>
+        <Modal show={showAssignModal} onHide={() => setShowAssignModal(false)} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Assign Session to User</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Group className="mb-3">
+              <Form.Label>Select Session</Form.Label>
+              {sessionName.map((session, index) => (
+                <Form.Check 
+                  type="radio" // Changed to radio button for single selection
+                  key={index} 
+                  label={session} 
+                  value={session} 
+                  checked={selectedSession === session}
+                  onChange={() => setSelectedSession(session)} 
+                />
+              ))}
+            </Form.Group>
 
-    <Form.Group className="mb-3">
-      <Form.Label>Select User</Form.Label>
-      <Form.Control
-        as="select"
-        value={selectedUser}
-        onChange={(e) => setSelectedUser(e.target.value)}
-      >
-        <option value="">Select a user</option>
-        {users?.map((user) => (
-          <option key={user.id} value={user.id}>{user.email}</option>
-        ))}
-      </Form.Control>
-    </Form.Group>
-  </Modal.Body>
-  <Modal.Footer>
-    <Button variant="secondary" onClick={() => setShowAssignModal(false)}>
-      Close
-    </Button>
-    <Button variant="primary" onClick={handleAssignSession} disabled={!selectedSession || !selectedUser}>
-      Assign Session
-    </Button>
-  </Modal.Footer>
-</Modal>
-
+            <Form.Group className="mb-3">
+              <Form.Label>Select User</Form.Label>
+              <Form.Control
+                as="select"
+                value={selectedUser}
+                onChange={(e) => setSelectedUser(e.target.value)}
+              >
+                <option value="">Select a user</option>
+                {users.map((user) => (
+                  <option key={user.id} value={user.id}>{user.email}</option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowAssignModal(false)}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleAssignSession} disabled={!selectedSession || !selectedUser}>
+              Assign Session
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     </Fragment>
   );

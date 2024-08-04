@@ -80,8 +80,12 @@ const IndexPage: React.FC<IndexPageProps> = ({ nameSession }) => {
       formData.append('session', selectedSession);
       formData.append('minDelay', minDelay.toString());
       formData.append('maxDelay', maxDelay.toString());
-      phoneNumbers.forEach((number) => formData.append('to[]', number));
-      let randomString = generateRandomString(5); 
+      phoneNumbers.forEach((number) => {
+        if (number.trim() !== '') {
+            formData.append('to[]', number);
+        }
+    });
+          let randomString = generateRandomString(5); 
       formData.append('message', textValue+`\n`+ randomString);
       formData.append('image', imageFile);
 

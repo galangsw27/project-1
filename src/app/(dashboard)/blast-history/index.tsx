@@ -1,23 +1,39 @@
-// 'use client'
-import { Button, DropdownToggle, Table, Dropdown, DropdownItem, DropdownMenu, Card , CardHeader, CardBody } from 'react-bootstrap'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
-import { faEllipsisVertical, faPlus } from '@fortawesome/free-solid-svg-icons'
-import { getDictionary } from '@/locales/dictionary'
+'use client'
+import React, { useState } from 'react'
+import { Button, Table, Card, CardBody, Modal, ModalHeader, ModalBody, ModalFooter } from 'react-bootstrap'
 
-export default function Index() {
-  const dict = getDictionary()
+// Define the type for the session data
+export interface Session {
+  sessionId: string;
+  session_name: string;
+  success_count: number;
+  failure_count: number;
+  skipped_count: number;
+}
 
-  if (!dict) {
-    return <div>Loading...</div>
+interface IndexProps {
+  sessions: Session[]
+}
+
+const Index: React.FC<IndexProps> = ({ sessions }) => {
+  const [selectedSession, setSelectedSession] = useState<Session | null>(null)
+  const [showModal, setShowModal] = useState(false)
+
+  const handleDetailClick = (session: Session) => {
+    setSelectedSession(session)
+    setShowModal(true)
+  }
+
+  const handleCloseModal = () => {
+    setShowModal(false)
+    setSelectedSession(null)
   }
 
   return (
     <Card>
-      <CardHeader>Blast History</CardHeader>
+      <Card.Header>Blast History</Card.Header>
       <CardBody>
-       
-        <Table striped>
+        <Table striped bordered hover>
           <thead>
             <tr>
               <th>#</th>
@@ -27,26 +43,51 @@ export default function Index() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td colSpan={2}>Larry the Bird</td>
-              <td>@twitter</td>
-            </tr>
+            {sessions.map((session, index) => (
+              <tr key={session.sessionId}>
+                <td>{index + 1}</td>
+                <td>{session.session_name}</td>
+                <td>
+                  <span 
+                    style={{
+                      color: session ? 'white' : 'red',
+                      borderRadius: '5px',
+                      padding: '2px 6px',
+                      backgroundColor: session  ? 'green' : '#f8d7da',
+                      display: 'inline-block'
+                    }}
+                  >
+                    {session ? 'Success' : 'Failure'}
+                  </span>
+                </td>
+                <td>
+                  <Button variant="link" style={{ textDecoration: 'none' }} onClick={() => handleDetailClick(session)}>
+                    View Details
+                  </Button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </Table>
+
+        {selectedSession && (
+          <Modal show={showModal} onHide={handleCloseModal}>
+            <ModalHeader closeButton>
+              <Modal.Title>Session Details</Modal.Title>
+            </ModalHeader>
+            <ModalBody>
+              <p><strong>Success Count:</strong> {selectedSession.success_count}</p>
+              <p><strong>Failure Count:</strong> {selectedSession.failure_count}</p>
+              <p><strong>Skipped Count:</strong> {selectedSession.skipped_count}</p>
+            </ModalBody>
+            <ModalFooter>
+              <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
+            </ModalFooter>
+          </Modal>
+        )}
       </CardBody>
     </Card>
   )
 }
+
+export default Index;
